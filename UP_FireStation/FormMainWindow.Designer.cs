@@ -255,7 +255,7 @@
             // labelWatchingMode
             // 
             this.labelWatchingMode.AutoSize = true;
-            this.labelWatchingMode.Location = new System.Drawing.Point(119, 507);
+            this.labelWatchingMode.Location = new System.Drawing.Point(267, 530);
             this.labelWatchingMode.Name = "labelWatchingMode";
             this.labelWatchingMode.Size = new System.Drawing.Size(58, 13);
             this.labelWatchingMode.TabIndex = 31;
@@ -305,7 +305,7 @@
             // 
             // btSearchEntry
             // 
-            this.btSearchEntry.Location = new System.Drawing.Point(244, 499);
+            this.btSearchEntry.Location = new System.Drawing.Point(245, 526);
             this.btSearchEntry.Name = "btSearchEntry";
             this.btSearchEntry.Size = new System.Drawing.Size(106, 21);
             this.btSearchEntry.TabIndex = 27;
@@ -316,7 +316,7 @@
             // 
             // btUpdateEntry
             // 
-            this.btUpdateEntry.Location = new System.Drawing.Point(244, 472);
+            this.btUpdateEntry.Location = new System.Drawing.Point(245, 526);
             this.btUpdateEntry.Name = "btUpdateEntry";
             this.btUpdateEntry.Size = new System.Drawing.Size(106, 21);
             this.btUpdateEntry.TabIndex = 15;
@@ -327,7 +327,7 @@
             // 
             // btAddEntry
             // 
-            this.btAddEntry.Location = new System.Drawing.Point(244, 445);
+            this.btAddEntry.Location = new System.Drawing.Point(245, 526);
             this.btAddEntry.Name = "btAddEntry";
             this.btAddEntry.Size = new System.Drawing.Size(106, 21);
             this.btAddEntry.TabIndex = 16;

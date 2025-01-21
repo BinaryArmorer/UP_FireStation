@@ -17,11 +17,7 @@ namespace UP_FireStation
 {
     public partial class FormMainWindow : Form
     {
-        private string connectionString = "Server=localhost; Port=5432; Database=FireStationUP; User ID=postgres; Password=zzxxvwgh;";
-        private BindingSource BS_fireman;
-        private BindingSource BS_firesquad;
-        private BindingSource BS_firetruck;
-        private BindingSource BS_equipment;
+        /*Названия таблиц в базе: firetruck fireman equipment firesquad*/
         public FormMainWindow()
         {
             InitializeComponent();
@@ -30,34 +26,27 @@ namespace UP_FireStation
             comboBoxChangeTable.SelectedIndex = 2;
             comboBoxChangeMode.SelectedIndex = 0;
         }
-        private void UpdateBS()
-        {
-            BS_fireman = sqlConnectionReader("fireman");
-            BS_firesquad = sqlConnectionReader("firesquad");
-            BS_firetruck = sqlConnectionReader("firetruck");
-            BS_equipment = sqlConnectionReader("equipment");
+        private string connectionString = "Server=localhost; Port=5432; Database=FireStationUP; User ID=postgres; Password=zzxxvwgh;";
+        private BindingSource BS_fireman;
+        private BindingSource BS_firesquad;
+        private BindingSource BS_firetruck;
+        private BindingSource BS_equipment;
 
-            if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные")
-            {
-                dataGridView1.DataSource = BS_fireman;
-            }
-            else if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные отряды")
-            {
-                dataGridView1.DataSource = BS_firesquad;
-            }
-            else if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные машины")
-            {
-                dataGridView1.DataSource = BS_firetruck;
-            }
-            else if (comboBoxChangeTable.SelectedItem?.ToString() == "Оборудование")
-            {
-                dataGridView1.DataSource = BS_equipment;
-            }
 
-            dataGridView1.ClearSelection();
-            ClearLable();
-            ClearTextBox();
-        }
+
+        /*\/Кнопки для очистки полей\/*/
+        private void btClearTextBox1_Click(object sender, EventArgs e) => textBoxTableColumn1.Text = "";
+        private void btClearTextBox2_Click(object sender, EventArgs e) => textBoxTableColumn2.Text = "";
+        private void btClearTextBox3_Click(object sender, EventArgs e) => textBoxTableColumn3.Text = "";
+        private void btClearTextBox4_Click(object sender, EventArgs e) => textBoxTableColumn4.Text = "";
+        private void btClearTextBox5_Click(object sender, EventArgs e) => textBoxTableColumn5.Text = "";
+        private void btClearTextBox6_Click(object sender, EventArgs e) => textBoxTableColumn6.Text = "";
+        private void btClearTextBox7_Click(object sender, EventArgs e) => textBoxTableColumn7.Text = "";
+        /*/\Кнопки для очистки полей/\*/
+
+
+
+        /*\/Соединение с базой и подача команд\/*/
         private BindingSource sqlConnectionReader(string nameTable)
         {
             // Открытие соединения
@@ -88,23 +77,252 @@ namespace UP_FireStation
 
             return encapsulator;
         }
-        private void comboBoxChangeTable_SelectedIndexChanged(object sender, EventArgs e)
+        private void CommandSQL(string commandSQL)
         {
-            UpdateBS();
+            // Открытие соединения
+            NpgsqlConnection sqlConnection = new NpgsqlConnection(connectionString); // Создаём объект класса
+            NpgsqlCommand command = new NpgsqlCommand(); // Создаём объект класса
+
+            sqlConnection.Open(); // Открываем соединение
+
+            command.Connection = sqlConnection; // Передаём строку подключения
+            command.CommandType = CommandType.Text; // Тип команды (текстовая)
+            command.CommandText = commandSQL; // Сама текстовая команда на языке SQL
+            
+            NpgsqlDataReader dataReader = command.ExecuteReader(); // Исполнение команды
+            
+            // Закрытие команды и соединения
+            command.Dispose(); // Закрытие команды
+            sqlConnection.Close(); // Закрытие соединения
+        }
+        private void UpdateBS()
+        {
+            BS_fireman = sqlConnectionReader("fireman");
+            BS_firesquad = sqlConnectionReader("firesquad");
+            BS_firetruck = sqlConnectionReader("firetruck");
+            BS_equipment = sqlConnectionReader("equipment");
+
+            if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные")
+            {
+                dataGridView1.DataSource = BS_fireman;
+            }
+            else if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные отряды")
+            {
+                dataGridView1.DataSource = BS_firesquad;
+            }
+            else if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные машины")
+            {
+                dataGridView1.DataSource = BS_firetruck;
+            }
+            else if (comboBoxChangeTable.SelectedItem?.ToString() == "Оборудование")
+            {
+                dataGridView1.DataSource = BS_equipment;
+            }
+
+            dataGridView1.ClearSelection();
+            ClearLable();
+            ClearTextBox();
         }
         private void btUpdate_Click(object sender, EventArgs e)
         {
             UpdateBS();
         }
+        /*/\Соединение с базой и подача команд/\*/
+
+
+
+        /*\/Переключение таблиц\/*/
+        private void comboBoxChangeTable_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateBS();
+
+            if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные отряды")
+            {
+                SetLableValue(labelTableColumn1, "Идентификатор");
+                SetLableValue(labelTableColumn2, "Название");
+                SetLableValue(labelTableColumn3, "Статус");
+            }
+            else if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные машины")
+            {
+                SetLableValue(labelTableColumn1, "Идентификатор");
+                SetLableValue(labelTableColumn2, "Идентификатор отряда");
+                SetLableValue(labelTableColumn3, "Класс");
+                SetLableValue(labelTableColumn4, "Марка");
+                SetLableValue(labelTableColumn5, "Модель");
+                SetLableValue(labelTableColumn6, "Пробег");
+                SetLableValue(labelTableColumn7, "Состояние");
+                SetLableValue(labelTableColumn8, "Дата выпуска");
+                SetLableValue(labelTableColumn9, "Дата списания");
+
+            }
+            else if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные")
+            {
+                SetLableValue(labelTableColumn1, "Идентификатор");
+                SetLableValue(labelTableColumn2, "Идентификатор отряда");
+                SetLableValue(labelTableColumn3, "Имя");
+                SetLableValue(labelTableColumn4, "Фамилия");
+                SetLableValue(labelTableColumn5, "Отчество");
+                SetLableValue(labelTableColumn8, "Дата рождения");
+            }
+            else if (comboBoxChangeTable.SelectedItem?.ToString() == "Оборудование")
+            {
+                SetLableValue(labelTableColumn1, "Идентификатор");
+                SetLableValue(labelTableColumn2, "Идентификатор отряда");
+                SetLableValue(labelTableColumn3, "Тип");
+                SetLableValue(labelTableColumn4, "Состояние");
+                SetLableValue(labelTableColumn5, "Количество");
+                SetLableValue(labelTableColumn8, "Дата списания");
+            }
+        }
+        private void SetTextBoxValue(TextBox textBox, string tb_value, Label lable, string lable_value)
+        {
+            textBox.Enabled = true;
+            textBox.Text = tb_value;
+            lable.Text = lable_value;
+        }
+        /*/\Переключение таблиц/\*/
+
+
+
+        /*\/Поведение вкладки управления данными записи из таблицы\/*/
+        private void comboBoxChangeMode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxChangeMode.SelectedItem?.ToString() == "Просмотр")
+            {
+                ClearLable();
+                ClearTextBox();
+                textBoxTableColumn1.Visible = true;
+                PropertyEnabledAndVisibleButtonsClearTextBox(false);
+                PropertyReadOnlyTextBox(true);
+                btSearchEntry.Visible = false;
+                btDeleteEntry.Visible = false;
+                btUpdateEntry.Visible = false;
+                btAddEntry.Visible = false;
+                labelWatchingMode.Visible = true;
+                btClearTextBox1.Visible = false;
+                btClearTextBox1.Enabled = false;
+                btClearTextBox.Visible = false;
+                dateTimePicker1.Enabled = false;
+                dateTimePicker2.Enabled = false;
+            }
+            else if (comboBoxChangeMode.SelectedItem?.ToString() == "Поиск")
+            {
+                ClearLable();
+                ClearTextBox();
+                textBoxTableColumn1.Visible = true;
+                PropertyEnabledAndVisibleButtonsClearTextBox(true);
+                PropertyReadOnlyTextBox(false);
+                btSearchEntry.Visible = true;
+                labelWatchingMode.Visible = false;
+                btDeleteEntry.Visible = false;
+                btUpdateEntry.Visible = false;
+                btAddEntry.Visible = false;
+                btClearTextBox1.Visible = true;
+                btClearTextBox1.Enabled = true;
+                btClearTextBox.Visible = true;
+                dateTimePicker1.Enabled = true;
+                dateTimePicker2.Enabled = true;
+
+            }
+            else if (comboBoxChangeMode.SelectedItem?.ToString() == "Добавление")
+            {
+                ClearLable();
+                ClearTextBox();
+                textBoxTableColumn1.Visible = false;
+                PropertyEnabledAndVisibleButtonsClearTextBox(true);
+                PropertyReadOnlyTextBox(false, "inversion_one");
+                btAddEntry.Visible = true;
+                labelWatchingMode.Visible = false;
+                btSearchEntry.Visible = false;
+                btDeleteEntry.Visible = false;
+                btUpdateEntry.Visible = false;
+                btClearTextBox1.Visible = false;
+                btClearTextBox1.Enabled = false;
+                btClearTextBox.Visible = true;
+                dateTimePicker1.Enabled = true;
+                dateTimePicker2.Enabled = true;
+
+                if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные отряды")
+                {
+                    SetLableValue(labelTableColumn1, "Идентификатор");
+                    SetLableValue(labelTableColumn2, "Название");
+                    SetLableValue(labelTableColumn3, "Статус");
+                }
+                else if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные машины")
+                {
+                    SetLableValue(labelTableColumn1, "Идентификатор");
+                    SetLableValue(labelTableColumn2, "Идентификатор отряда");
+                    SetLableValue(labelTableColumn3, "Класс");
+                    SetLableValue(labelTableColumn4, "Марка");
+                    SetLableValue(labelTableColumn5, "Модель");
+                    SetLableValue(labelTableColumn6, "Пробег");
+                    SetLableValue(labelTableColumn7, "Состояние");
+                    SetLableValue(labelTableColumn8, "Дата выпуска");
+                    SetLableValue(labelTableColumn9, "Дата списания");
+
+                }
+                else if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные")
+                {
+                    SetLableValue(labelTableColumn1, "Идентификатор");
+                    SetLableValue(labelTableColumn2, "Идентификатор отряда");
+                    SetLableValue(labelTableColumn3, "Имя");
+                    SetLableValue(labelTableColumn4, "Фамилия");
+                    SetLableValue(labelTableColumn5, "Отчество");
+                    SetLableValue(labelTableColumn8, "Дата рождения");
+                }
+                else if (comboBoxChangeTable.SelectedItem?.ToString() == "Оборудование")
+                {
+                    SetLableValue(labelTableColumn1, "Идентификатор");
+                    SetLableValue(labelTableColumn2, "Идентификатор отряда");
+                    SetLableValue(labelTableColumn3, "Тип");
+                    SetLableValue(labelTableColumn4, "Состояние");
+                    SetLableValue(labelTableColumn5, "Количество");
+                    SetLableValue(labelTableColumn8, "Дата списания");
+                }
+            }
+            else if (comboBoxChangeMode.SelectedItem?.ToString() == "Обновление")
+            {
+                ClearLable();
+                ClearTextBox();
+                textBoxTableColumn1.Visible = true;
+                PropertyEnabledAndVisibleButtonsClearTextBox(true);
+                PropertyReadOnlyTextBox(false);
+                btUpdateEntry.Visible = true;
+                labelWatchingMode.Visible = false;
+                btSearchEntry.Visible = false;
+                btDeleteEntry.Visible = false;
+                btAddEntry.Visible = false;
+                btClearTextBox1.Visible = true;
+                btClearTextBox1.Enabled = true;
+                btClearTextBox.Visible = true;
+                dateTimePicker1.Enabled = true;
+                dateTimePicker2.Enabled = true;
+            }
+            else if (comboBoxChangeMode.SelectedItem?.ToString() == "Удаление")
+            {
+                ClearLable();
+                ClearTextBox();
+                textBoxTableColumn1.Visible = true;
+                PropertyEnabledAndVisibleButtonsClearTextBox(false, "visible");
+                PropertyReadOnlyTextBox(true);
+                btDeleteEntry.Visible = true;
+                labelWatchingMode.Visible = false;
+                btSearchEntry.Visible = false;
+                btUpdateEntry.Visible = false;
+                btAddEntry.Visible = false;
+                btClearTextBox1.Visible = false;
+                btClearTextBox1.Enabled = false;
+                btClearTextBox.Visible = false;
+                dateTimePicker1.Enabled = false;
+                dateTimePicker2.Enabled = false;
+            }
+        }
+        /*/\Поведение вкладки управления данными записи из таблицы/\*/
+
+
+        /*\/Выбор записи из dataGridView\/*/
         private void dataGridView1_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
-            void SetTextBoxValue(TextBox textBox, string tb_value, Label lable, string lable_value)
-            {
-                textBox.Enabled = true;
-                textBox.Text = tb_value;
-                lable.Text = lable_value;
-            }
-
             if (comboBoxChangeMode.SelectedItem?.ToString() != "Добавление")
             {
                 try
@@ -182,14 +400,17 @@ namespace UP_FireStation
                     Debug.WriteLine("ArgumentOutOfRangeException: Загрузка базы данных!");
                 }
             }
+
         }
-        private void btClearTextBox1_Click(object sender, EventArgs e) => textBoxTableColumn1.Text = "";
-        private void btClearTextBox2_Click(object sender, EventArgs e) => textBoxTableColumn2.Text = "";
-        private void btClearTextBox3_Click(object sender, EventArgs e) => textBoxTableColumn3.Text = "";
-        private void btClearTextBox4_Click(object sender, EventArgs e) => textBoxTableColumn4.Text = "";
-        private void btClearTextBox5_Click(object sender, EventArgs e) => textBoxTableColumn5.Text = "";
-        private void btClearTextBox6_Click(object sender, EventArgs e) => textBoxTableColumn6.Text = "";
-        private void btClearTextBox7_Click(object sender, EventArgs e) => textBoxTableColumn7.Text = "";
+        private void SetLableValue(Label lable, string lable_value)
+        {
+            lable.Text = lable_value;
+        }
+        /*/\Выбор записи из dataGridView/\*/
+
+
+
+        /*\/ОЧИСТКА LABLE и TEXTBOX\/*/
         private void ClearTextBox()
         {
             textBoxTableColumn1.Text = "";
@@ -216,6 +437,7 @@ namespace UP_FireStation
         }
         private void btClearTextBox_Click(object sender, EventArgs e)
         {
+            textBoxTableColumn1.Text = "";
             textBoxTableColumn2.Text = "";
             textBoxTableColumn3.Text = "";
             textBoxTableColumn4.Text = "";
@@ -225,7 +447,12 @@ namespace UP_FireStation
             textBoxTableColumn8.Text = "";
             textBoxTableColumn9.Text = "";
         }
-        private void PropertyEnabledButtonsClearTextBox(bool variant)
+        /*/\ОЧИСТКА LABLE и TEXTBOX/\*/
+
+
+
+        /*\/Изменения свойств элементов в форме\/*/
+        private void PropertyEnabledAndVisibleButtonsClearTextBox(bool variant, string func = "none")
         {
             if (variant == true)
             {
@@ -235,6 +462,12 @@ namespace UP_FireStation
                 btClearTextBox5.Enabled = true;
                 btClearTextBox6.Enabled = true;
                 btClearTextBox7.Enabled = true;
+                btClearTextBox2.Visible = true;
+                btClearTextBox3.Visible = true;
+                btClearTextBox4.Visible = true;
+                btClearTextBox5.Visible = true;
+                btClearTextBox6.Visible = true;
+                btClearTextBox7.Visible = true;
             }
             else if (variant == false)
             {
@@ -244,6 +477,13 @@ namespace UP_FireStation
                 btClearTextBox5.Enabled = false;
                 btClearTextBox6.Enabled = false;
                 btClearTextBox7.Enabled = false;
+                btClearTextBox2.Visible = false;
+                btClearTextBox3.Visible = false;
+                btClearTextBox4.Visible = false;
+                btClearTextBox5.Visible = false;
+                btClearTextBox6.Visible = false;
+                btClearTextBox7.Visible = false;
+
             }
         }
         private void PropertyReadOnlyTextBox(bool variant, string column1_ = "not_ignore")
@@ -285,111 +525,173 @@ namespace UP_FireStation
                 textBoxTableColumn7.ReadOnly = false;
             }
         }
-        private void comboBoxChangeMode_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (comboBoxChangeMode.SelectedItem?.ToString() == "Просмотр")
-            {
-                ClearLable();
-                ClearTextBox();
-                PropertyEnabledButtonsClearTextBox(false);
-                PropertyReadOnlyTextBox(true);
-                btSearchEntry.Visible = false;
-                btDeleteEntry.Visible = false;
-                btUpdateEntry.Visible = false;
-                btAddEntry.Visible = false;
-                labelWatchingMode.Visible = true;
-                btClearTextBox1.Visible = false;
-                btClearTextBox1.Enabled = false;
-                btClearTextBox.Visible = false;
-                dateTimePicker1.Enabled = false;
-                dateTimePicker2.Enabled = false;
-            }
-            else if (comboBoxChangeMode.SelectedItem?.ToString() == "Поиск")
-            {
-                ClearLable();
-                ClearTextBox();
-                PropertyEnabledButtonsClearTextBox(true);
-                PropertyReadOnlyTextBox(false);
-                btSearchEntry.Visible = true;
-                labelWatchingMode.Visible = false;
-                btDeleteEntry.Visible = false;
-                btUpdateEntry.Visible = false;
-                btAddEntry.Visible = false;
-                btClearTextBox1.Visible = true;
-                btClearTextBox1.Enabled = true;
-                btClearTextBox.Visible = true;
-                dateTimePicker1.Enabled = true;
-                dateTimePicker2.Enabled = true;
+        /*/\Изменения свойств элементов в форме/\*/
 
-            }
-            else if (comboBoxChangeMode.SelectedItem?.ToString() == "Добавление")
-            {
-                ClearLable();
-                ClearTextBox();
-                PropertyEnabledButtonsClearTextBox(true);
-                PropertyReadOnlyTextBox(false, "inversion_one");
-                btAddEntry.Visible = true;
-                labelWatchingMode.Visible = false;
-                btSearchEntry.Visible = false;
-                btDeleteEntry.Visible = false;
-                btUpdateEntry.Visible = false;
-                btClearTextBox1.Visible = false;
-                btClearTextBox1.Enabled = false;
-                btClearTextBox.Visible = true;
-                dateTimePicker1.Enabled = true;
-                dateTimePicker2.Enabled = true;
-            }
-            else if (comboBoxChangeMode.SelectedItem?.ToString() == "Обновление")
-            {
-                ClearLable();
-                ClearTextBox();
-                PropertyEnabledButtonsClearTextBox(true);
-                PropertyReadOnlyTextBox(false, "inversion_one");
-                btUpdateEntry.Visible = true;
-                labelWatchingMode.Visible = false;
-                btSearchEntry.Visible = false;
-                btDeleteEntry.Visible = false;
-                btAddEntry.Visible = false;
-                btClearTextBox1.Visible = false;
-                btClearTextBox1.Enabled = false;
-                btClearTextBox.Visible = true;
-                dateTimePicker1.Enabled = true;
-                dateTimePicker2.Enabled = true;
-            }
-            else if (comboBoxChangeMode.SelectedItem?.ToString() == "Удаление") 
-            {
-                ClearLable();
-                ClearTextBox();
-                PropertyEnabledButtonsClearTextBox(false);
-                PropertyReadOnlyTextBox(true);
-                btDeleteEntry.Visible = true;
-                labelWatchingMode.Visible = false;
-                btSearchEntry.Visible = false;
-                btUpdateEntry.Visible = false;
-                btAddEntry.Visible = false;
-                btClearTextBox1.Visible = false;
-                btClearTextBox1.Enabled = false;
-                btClearTextBox.Visible = false;
-                dateTimePicker1.Enabled = false;
-                dateTimePicker2.Enabled = false;
-            }
-        }
 
+
+        /*\/Функции ПОИСКА, ОБНОВЛЕНИЯ, ДОБАВЛЕНИЯ, УДАЛЕНИЯ данных\/*/
         private void btSearchEntry_Click(object sender, EventArgs e)
         {
 
         }
         private void btAddEntry_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                CommandSQL($"INSERT INTO {selectedTable()} ({selectedColumns("ColumnNameMode")}) VALUES ({selectedColumns("ColumnValueMode")})");
+                UpdateBS();
+            }
+            catch (PostgresException)
+            {
+                MessageBox.Show("Вы не заполнили ID!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         private void btUpdateEntry_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                CommandSQL($"UPDATE {selectedTable()} SET {selectedColumns()} WHERE {selectedId()}");
+                UpdateBS();
+            }
+            catch (PostgresException)
+            {
+                MessageBox.Show("Вы не заполнили ID!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         private void btDeleteEntry_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                CommandSQL($"DELETE FROM {selectedTable()} WHERE {selectedId()}");
+                UpdateBS();
+            }
+            catch (PostgresException)
+            {
+                MessageBox.Show("Вы не выбрали запись, которую нужно удалить", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+        //Вспомогательные методы\/
+        private string selectedTable()
+        {
+            if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные отряды")
+            {
+                return "firesquad";
+            }
+            else if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные машины")
+            {
+                return "firetruck";
+            }
+            else if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные")
+            {
+                return "fireman";
+            }
+            else if (comboBoxChangeTable.SelectedItem?.ToString() == "Оборудование")
+            {
+                return "equipment";
+            }
+            else
+            {
+                return "Error";
+            }
+        }
+        private string selectedColumns(string methodMode = "none")
+        {
+            if (methodMode == "none")
+            {
+                string[] arrayColumnTextBoxes = new string[] { textBoxTableColumn1.Text, textBoxTableColumn2.Text, textBoxTableColumn3.Text, textBoxTableColumn4.Text, textBoxTableColumn5.Text, textBoxTableColumn6.Text, textBoxTableColumn7.Text, textBoxTableColumn8.Text, textBoxTableColumn9.Text };
+
+                if (selectedTable() == "firesquad")
+                {
+                    string[] arrayColumnDataBase = new string[] { $"\"Название\" = '{arrayColumnTextBoxes[1]}'", $"\"Статус\" = '{arrayColumnTextBoxes[2]}'" };
+                    string nameColumns = string.Join(", ", arrayColumnDataBase);
+                    return nameColumns;
+                }
+                else if (selectedTable() == "fireman")
+                {
+                    return "Error";
+                }
+                else if (selectedTable() == "firetruck")
+                {
+                    return "Error";
+                }
+                else if (selectedTable() == "equipment")
+                {
+                    return "Error";
+                }
+                return "Error";
+            }
+            else if (methodMode == "ColumnNameMode")
+            {
+                if (selectedTable() == "firesquad")
+                {
+                    string[] arrayColumnDataBase = new string[] { "\"Название\"", "\"Статус\"" };
+                    string nameColumns = string.Join(", ", arrayColumnDataBase);
+                    return nameColumns;
+                }
+                else if (selectedTable() == "fireman")
+                {
+                    return "Error";
+                }
+                else if (selectedTable() == "firetruck")
+                {
+                    return "Error";
+                }
+                else if (selectedTable() == "equipment")
+                {
+                    return "Error";
+                }
+                return "Error";
+            }
+            else if (methodMode == "ColumnValueMode")
+            {
+                string[] arrayColumnTextBoxes = new string[] { textBoxTableColumn1.Text, textBoxTableColumn2.Text, textBoxTableColumn3.Text, textBoxTableColumn4.Text, textBoxTableColumn5.Text, textBoxTableColumn6.Text, textBoxTableColumn7.Text, textBoxTableColumn8.Text, textBoxTableColumn9.Text };
+
+                if (selectedTable() == "firesquad")
+                {
+                    string[] arrayColumnDataBase = new string[] { $"'{arrayColumnTextBoxes[1]}'", $"'{arrayColumnTextBoxes[2]}'" };
+                    string nameColumns = string.Join(", ", arrayColumnDataBase);
+                    return nameColumns;
+                }
+                else if (selectedTable() == "fireman")
+                {
+                    return "Error";
+                }
+                else if (selectedTable() == "firetruck")
+                {
+                    return "Error";
+                }
+                else if (selectedTable() == "equipment")
+                {
+                    return "Error";
+                }
+                return "Error";
+            }
+            else
+            {
+                return "Error";
+            }
+            
+        }
+        private string selectedId()
+        {
+            if (selectedTable() == "firesquad")
+            {
+                return $"id_firesquad = {textBoxTableColumn1.Text}";
+            }
+            else if (selectedTable() == "fireman")
+            {
+                return "Error";
+            }
+            else if (selectedTable() == "firetruck")
+            {
+                return "Error";
+            }
+            else if (selectedTable() == "equipment")
+            {
+                return "Error";
+            }
+            return "Error";
+        }
+        /*/\Функции ПОИСКА, ОБНОВЛЕНИЯ, ДОБАВЛЕНИЯ, УДАЛЕНИЯ данных/\*/
     }
 }
