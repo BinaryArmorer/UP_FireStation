@@ -17,12 +17,11 @@ namespace UP_FireStation
 {
     public partial class FormMainWindow : Form
     {
-        string connectionString = "Server=localhost; Port=5432; Database=FireStationUP; User ID=postgres; Password=zzxxvwgh;";
-        BindingSource BS_fireman;
-        BindingSource BS_firesquad;
-        BindingSource BS_firetruck;
-        BindingSource BS_equipment;
-
+        private string connectionString = "Server=localhost; Port=5432; Database=FireStationUP; User ID=postgres; Password=zzxxvwgh;";
+        private BindingSource BS_fireman;
+        private BindingSource BS_firesquad;
+        private BindingSource BS_firetruck;
+        private BindingSource BS_equipment;
         public FormMainWindow()
         {
             InitializeComponent();
@@ -31,7 +30,6 @@ namespace UP_FireStation
             comboBoxChangeTable.SelectedIndex = 2;
             comboBoxChangeMode.SelectedIndex = 0;
         }
-
         private void UpdateBS()
         {
             BS_fireman = sqlConnectionReader("fireman");
@@ -107,79 +105,82 @@ namespace UP_FireStation
                 lable.Text = lable_value;
             }
 
-            try
+            if (comboBoxChangeMode.SelectedItem?.ToString() != "Добавление")
             {
-                DataGridViewRow selectedRow = dataGridView1.SelectedRows[0];
-
-                if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные отряды")
+                try
                 {
-                    string id_firesquad = selectedRow.Cells[0].Value?.ToString(); // Первый столбец, ?.ToString() на случай если значение null
-                    string name = selectedRow.Cells[1].Value?.ToString();
-                    string status = selectedRow.Cells[2].Value?.ToString();
+                    DataGridViewRow selectedRow = dataGridView1.SelectedRows[0];
 
-                    SetTextBoxValue(textBoxTableColumn1, id_firesquad, labelTableColumn1, "Идентификатор");
-                    SetTextBoxValue(textBoxTableColumn2, name, labelTableColumn2, "Название");
-                    SetTextBoxValue(textBoxTableColumn3, status, labelTableColumn3, "Статус");
+                    if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные отряды")
+                    {
+                        string id_firesquad = selectedRow.Cells[0].Value?.ToString(); // Первый столбец, ?.ToString() на случай если значение null
+                        string name = selectedRow.Cells[1].Value?.ToString();
+                        string status = selectedRow.Cells[2].Value?.ToString();
+
+                        SetTextBoxValue(textBoxTableColumn1, id_firesquad, labelTableColumn1, "Идентификатор");
+                        SetTextBoxValue(textBoxTableColumn2, name, labelTableColumn2, "Название");
+                        SetTextBoxValue(textBoxTableColumn3, status, labelTableColumn3, "Статус");
+                    }
+                    else if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные машины")
+                    {
+                        string id_firetruck = selectedRow.Cells[0].Value?.ToString();
+                        string id_firesquad = selectedRow.Cells[1].Value?.ToString();
+                        string class_ = selectedRow.Cells[2].Value?.ToString();
+                        string stamp = selectedRow.Cells[3].Value?.ToString();
+                        string model = selectedRow.Cells[4].Value?.ToString();
+                        string mileage = selectedRow.Cells[5].Value?.ToString();
+                        string condition = selectedRow.Cells[6].Value?.ToString();
+                        string release_date = selectedRow.Cells[7].Value?.ToString();
+                        string date_debit = selectedRow.Cells[8].Value?.ToString();
+
+                        SetTextBoxValue(textBoxTableColumn1, id_firetruck, labelTableColumn1, "Идентификатор");
+                        SetTextBoxValue(textBoxTableColumn2, id_firesquad, labelTableColumn2, "Идентификатор отряда");
+                        SetTextBoxValue(textBoxTableColumn3, class_, labelTableColumn3, "Класс");
+                        SetTextBoxValue(textBoxTableColumn4, stamp, labelTableColumn4, "Марка");
+                        SetTextBoxValue(textBoxTableColumn5, model, labelTableColumn5, "Модель");
+                        SetTextBoxValue(textBoxTableColumn6, mileage, labelTableColumn6, "Пробег");
+                        SetTextBoxValue(textBoxTableColumn7, condition, labelTableColumn7, "Состояние");
+                        SetTextBoxValue(textBoxTableColumn8, release_date, labelTableColumn8, "Дата выпуска");
+                        SetTextBoxValue(textBoxTableColumn9, date_debit, labelTableColumn9, "Дата списания");
+
+                    }
+                    else if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные")
+                    {
+                        string id_fireman = selectedRow.Cells[0].Value?.ToString();
+                        string id_firesquad = selectedRow.Cells[1].Value?.ToString();
+                        string name = selectedRow.Cells[2].Value?.ToString();
+                        string secondname = selectedRow.Cells[3].Value?.ToString();
+                        string thridname = selectedRow.Cells[4].Value?.ToString();
+                        string brithday = selectedRow.Cells[5].Value?.ToString();
+
+                        SetTextBoxValue(textBoxTableColumn1, id_fireman, labelTableColumn1, "Идентификатор");
+                        SetTextBoxValue(textBoxTableColumn2, id_firesquad, labelTableColumn2, "Идентификатор отряда");
+                        SetTextBoxValue(textBoxTableColumn3, name, labelTableColumn3, "Имя");
+                        SetTextBoxValue(textBoxTableColumn4, secondname, labelTableColumn4, "Фамилия");
+                        SetTextBoxValue(textBoxTableColumn5, thridname, labelTableColumn5, "Отчество");
+                        SetTextBoxValue(textBoxTableColumn8, brithday, labelTableColumn8, "Дата рождения");
+                    }
+                    else if (comboBoxChangeTable.SelectedItem?.ToString() == "Оборудование")
+                    {
+                        string id_equipment = selectedRow.Cells[0].Value?.ToString();
+                        string id_firesquad = selectedRow.Cells[1].Value?.ToString();
+                        string type = selectedRow.Cells[2].Value?.ToString();
+                        string condition = selectedRow.Cells[3].Value?.ToString();
+                        string count = selectedRow.Cells[4].Value?.ToString();
+                        string date_debit = selectedRow.Cells[5].Value?.ToString();
+
+                        SetTextBoxValue(textBoxTableColumn1, id_equipment, labelTableColumn1, "Идентификатор");
+                        SetTextBoxValue(textBoxTableColumn2, id_firesquad, labelTableColumn2, "Идентификатор отряда");
+                        SetTextBoxValue(textBoxTableColumn3, type, labelTableColumn3, "Тип");
+                        SetTextBoxValue(textBoxTableColumn4, condition, labelTableColumn4, "Состояние");
+                        SetTextBoxValue(textBoxTableColumn5, count, labelTableColumn5, "Количество");
+                        SetTextBoxValue(textBoxTableColumn8, date_debit, labelTableColumn8, "Дата списания");
+                    }
                 }
-                else if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные машины")
+                catch (ArgumentOutOfRangeException)
                 {
-                    string id_firetruck = selectedRow.Cells[0].Value?.ToString();
-                    string id_firesquad = selectedRow.Cells[1].Value?.ToString();
-                    string class_ = selectedRow.Cells[2].Value?.ToString();
-                    string stamp = selectedRow.Cells[3].Value?.ToString();
-                    string model = selectedRow.Cells[4].Value?.ToString();
-                    string mileage = selectedRow.Cells[5].Value?.ToString();
-                    string condition = selectedRow.Cells[6].Value?.ToString();
-                    string release_date = selectedRow.Cells[7].Value?.ToString();
-                    string date_debit = selectedRow.Cells[8].Value?.ToString();
-
-                    SetTextBoxValue(textBoxTableColumn1, id_firetruck, labelTableColumn1, "Идентификатор");
-                    SetTextBoxValue(textBoxTableColumn2, id_firesquad, labelTableColumn2, "Идентификатор отряда");
-                    SetTextBoxValue(textBoxTableColumn3, class_, labelTableColumn3, "Класс");
-                    SetTextBoxValue(textBoxTableColumn4, stamp, labelTableColumn4, "Марка");
-                    SetTextBoxValue(textBoxTableColumn5, model, labelTableColumn5, "Модель");
-                    SetTextBoxValue(textBoxTableColumn6, mileage, labelTableColumn6, "Пробег");
-                    SetTextBoxValue(textBoxTableColumn7, condition, labelTableColumn7, "Состояние");
-                    SetTextBoxValue(textBoxTableColumn8, release_date, labelTableColumn8, "Дата выпуска");
-                    SetTextBoxValue(textBoxTableColumn9, date_debit, labelTableColumn9, "Дата списания");
-
+                    Debug.WriteLine("ArgumentOutOfRangeException: Загрузка базы данных!");
                 }
-                else if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные")
-                {
-                    string id_fireman = selectedRow.Cells[0].Value?.ToString();
-                    string id_firesquad = selectedRow.Cells[1].Value?.ToString();
-                    string name = selectedRow.Cells[2].Value?.ToString();
-                    string secondname = selectedRow.Cells[3].Value?.ToString();
-                    string thridname = selectedRow.Cells[4].Value?.ToString();
-                    string brithday = selectedRow.Cells[5].Value?.ToString();
-
-                    SetTextBoxValue(textBoxTableColumn1, id_fireman, labelTableColumn1, "Идентификатор");
-                    SetTextBoxValue(textBoxTableColumn2, id_firesquad, labelTableColumn2, "Идентификатор отряда");
-                    SetTextBoxValue(textBoxTableColumn3, name, labelTableColumn3, "Имя");
-                    SetTextBoxValue(textBoxTableColumn4, secondname, labelTableColumn4, "Фамилия");
-                    SetTextBoxValue(textBoxTableColumn5, thridname, labelTableColumn5, "Отчество");
-                    SetTextBoxValue(textBoxTableColumn8, brithday, labelTableColumn8, "Дата рождения");
-                }
-                else if (comboBoxChangeTable.SelectedItem?.ToString() == "Оборудование")
-                {
-                    string id_equipment = selectedRow.Cells[0].Value?.ToString();
-                    string id_firesquad = selectedRow.Cells[1].Value?.ToString();
-                    string type = selectedRow.Cells[2].Value?.ToString();
-                    string condition = selectedRow.Cells[3].Value?.ToString();
-                    string count = selectedRow.Cells[4].Value?.ToString();
-                    string date_debit = selectedRow.Cells[5].Value?.ToString();
-
-                    SetTextBoxValue(textBoxTableColumn1, id_equipment, labelTableColumn1, "Идентификатор");
-                    SetTextBoxValue(textBoxTableColumn2, id_firesquad, labelTableColumn2, "Идентификатор отряда");
-                    SetTextBoxValue(textBoxTableColumn3, type, labelTableColumn3, "Тип");
-                    SetTextBoxValue(textBoxTableColumn4, condition, labelTableColumn4, "Состояние");
-                    SetTextBoxValue(textBoxTableColumn5, count, labelTableColumn5, "Количество");
-                    SetTextBoxValue(textBoxTableColumn8, date_debit, labelTableColumn8, "Дата списания");
-                }
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                Debug.WriteLine("ArgumentOutOfRangeException: Загрузка базы данных!");
             }
         }
         private void btClearTextBox1_Click(object sender, EventArgs e) => textBoxTableColumn1.Text = "";
@@ -245,14 +246,19 @@ namespace UP_FireStation
                 btClearTextBox7.Enabled = false;
             }
         }
-        private void PropertyReadOnlyTextBox(bool variant, bool column1_)
+        private void PropertyReadOnlyTextBox(bool variant, string column1_ = "not_ignore")
         {
             if (variant == true)
             {
-                if (column1_ == true)
+                if (column1_ == "inversion_one")
+                {
+                    textBoxTableColumn1.ReadOnly = false;
+                }
+                else if (column1_ != "ignore_one")
                 {
                     textBoxTableColumn1.ReadOnly = true;
                 }
+                
                 textBoxTableColumn2.ReadOnly = true;
                 textBoxTableColumn3.ReadOnly = true;
                 textBoxTableColumn4.ReadOnly = true;
@@ -262,10 +268,15 @@ namespace UP_FireStation
             }
             else if (variant == false)
             {
-                if (column1_ == true)
+                if (column1_ == "inversion_one")
+                {
+                    textBoxTableColumn1.ReadOnly = true;
+                }
+                else if (column1_ != "ignore_one")
                 {
                     textBoxTableColumn1.ReadOnly = false;
                 }
+                
                 textBoxTableColumn2.ReadOnly = false;
                 textBoxTableColumn3.ReadOnly = false;
                 textBoxTableColumn4.ReadOnly = false;
@@ -281,7 +292,7 @@ namespace UP_FireStation
                 ClearLable();
                 ClearTextBox();
                 PropertyEnabledButtonsClearTextBox(false);
-                PropertyReadOnlyTextBox(true, true);
+                PropertyReadOnlyTextBox(true);
                 btSearchEntry.Visible = false;
                 btDeleteEntry.Visible = false;
                 btUpdateEntry.Visible = false;
@@ -295,8 +306,10 @@ namespace UP_FireStation
             }
             else if (comboBoxChangeMode.SelectedItem?.ToString() == "Поиск")
             {
+                ClearLable();
+                ClearTextBox();
                 PropertyEnabledButtonsClearTextBox(true);
-                PropertyReadOnlyTextBox(false, true);
+                PropertyReadOnlyTextBox(false);
                 btSearchEntry.Visible = true;
                 labelWatchingMode.Visible = false;
                 btDeleteEntry.Visible = false;
@@ -311,8 +324,10 @@ namespace UP_FireStation
             }
             else if (comboBoxChangeMode.SelectedItem?.ToString() == "Добавление")
             {
+                ClearLable();
+                ClearTextBox();
                 PropertyEnabledButtonsClearTextBox(true);
-                PropertyReadOnlyTextBox(false, false);
+                PropertyReadOnlyTextBox(false, "inversion_one");
                 btAddEntry.Visible = true;
                 labelWatchingMode.Visible = false;
                 btSearchEntry.Visible = false;
@@ -326,8 +341,10 @@ namespace UP_FireStation
             }
             else if (comboBoxChangeMode.SelectedItem?.ToString() == "Обновление")
             {
+                ClearLable();
+                ClearTextBox();
                 PropertyEnabledButtonsClearTextBox(true);
-                PropertyReadOnlyTextBox(false, false);
+                PropertyReadOnlyTextBox(false, "inversion_one");
                 btUpdateEntry.Visible = true;
                 labelWatchingMode.Visible = false;
                 btSearchEntry.Visible = false;
@@ -341,8 +358,10 @@ namespace UP_FireStation
             }
             else if (comboBoxChangeMode.SelectedItem?.ToString() == "Удаление") 
             {
+                ClearLable();
+                ClearTextBox();
                 PropertyEnabledButtonsClearTextBox(false);
-                PropertyReadOnlyTextBox(true, true);
+                PropertyReadOnlyTextBox(true);
                 btDeleteEntry.Visible = true;
                 labelWatchingMode.Visible = false;
                 btSearchEntry.Visible = false;
@@ -354,6 +373,23 @@ namespace UP_FireStation
                 dateTimePicker1.Enabled = false;
                 dateTimePicker2.Enabled = false;
             }
+        }
+
+        private void btSearchEntry_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void btAddEntry_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void btUpdateEntry_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void btDeleteEntry_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

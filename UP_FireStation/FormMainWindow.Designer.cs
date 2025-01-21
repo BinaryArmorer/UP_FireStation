@@ -33,6 +33,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btUpdate = new System.Windows.Forms.Button();
             this.panelSearch = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.btClearTextBox1 = new System.Windows.Forms.Button();
+            this.btClearTextBox2 = new System.Windows.Forms.Button();
+            this.btClearTextBox6 = new System.Windows.Forms.Button();
+            this.btClearTextBox5 = new System.Windows.Forms.Button();
+            this.btClearTextBox4 = new System.Windows.Forms.Button();
+            this.btClearTextBox3 = new System.Windows.Forms.Button();
+            this.btClearTextBox7 = new System.Windows.Forms.Button();
             this.labelWatchingMode = new System.Windows.Forms.Label();
             this.comboBoxChangeMode = new System.Windows.Forms.ComboBox();
             this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
@@ -61,14 +69,6 @@
             this.textBoxTableColumn1 = new System.Windows.Forms.TextBox();
             this.labelTableColumn1 = new System.Windows.Forms.Label();
             this.panelAdaptiveTables = new System.Windows.Forms.Panel();
-            this.btClearTextBox7 = new System.Windows.Forms.Button();
-            this.btClearTextBox3 = new System.Windows.Forms.Button();
-            this.btClearTextBox4 = new System.Windows.Forms.Button();
-            this.btClearTextBox5 = new System.Windows.Forms.Button();
-            this.btClearTextBox6 = new System.Windows.Forms.Button();
-            this.btClearTextBox2 = new System.Windows.Forms.Button();
-            this.btClearTextBox1 = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panelSearch.SuspendLayout();
             this.panelAdaptiveTables.SuspendLayout();
@@ -165,10 +165,97 @@
             this.panelSearch.Size = new System.Drawing.Size(356, 552);
             this.panelSearch.TabIndex = 13;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 529);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(82, 13);
+            this.label2.TabIndex = 39;
+            this.label2.Text = "Режим работы";
+            // 
+            // btClearTextBox1
+            // 
+            this.btClearTextBox1.Enabled = false;
+            this.btClearTextBox1.Location = new System.Drawing.Point(330, 5);
+            this.btClearTextBox1.Name = "btClearTextBox1";
+            this.btClearTextBox1.Size = new System.Drawing.Size(20, 20);
+            this.btClearTextBox1.TabIndex = 38;
+            this.btClearTextBox1.Text = "X";
+            this.btClearTextBox1.UseVisualStyleBackColor = true;
+            this.btClearTextBox1.Visible = false;
+            this.btClearTextBox1.Click += new System.EventHandler(this.btClearTextBox1_Click);
+            // 
+            // btClearTextBox2
+            // 
+            this.btClearTextBox2.Enabled = false;
+            this.btClearTextBox2.Location = new System.Drawing.Point(330, 30);
+            this.btClearTextBox2.Name = "btClearTextBox2";
+            this.btClearTextBox2.Size = new System.Drawing.Size(20, 20);
+            this.btClearTextBox2.TabIndex = 37;
+            this.btClearTextBox2.Text = "X";
+            this.btClearTextBox2.UseVisualStyleBackColor = true;
+            this.btClearTextBox2.Click += new System.EventHandler(this.btClearTextBox2_Click);
+            // 
+            // btClearTextBox6
+            // 
+            this.btClearTextBox6.Enabled = false;
+            this.btClearTextBox6.Location = new System.Drawing.Point(330, 135);
+            this.btClearTextBox6.Name = "btClearTextBox6";
+            this.btClearTextBox6.Size = new System.Drawing.Size(20, 20);
+            this.btClearTextBox6.TabIndex = 36;
+            this.btClearTextBox6.Text = "X";
+            this.btClearTextBox6.UseVisualStyleBackColor = true;
+            this.btClearTextBox6.Click += new System.EventHandler(this.btClearTextBox6_Click);
+            // 
+            // btClearTextBox5
+            // 
+            this.btClearTextBox5.Enabled = false;
+            this.btClearTextBox5.Location = new System.Drawing.Point(330, 109);
+            this.btClearTextBox5.Name = "btClearTextBox5";
+            this.btClearTextBox5.Size = new System.Drawing.Size(20, 20);
+            this.btClearTextBox5.TabIndex = 35;
+            this.btClearTextBox5.Text = "X";
+            this.btClearTextBox5.UseVisualStyleBackColor = true;
+            this.btClearTextBox5.Click += new System.EventHandler(this.btClearTextBox5_Click);
+            // 
+            // btClearTextBox4
+            // 
+            this.btClearTextBox4.Enabled = false;
+            this.btClearTextBox4.Location = new System.Drawing.Point(330, 83);
+            this.btClearTextBox4.Name = "btClearTextBox4";
+            this.btClearTextBox4.Size = new System.Drawing.Size(20, 20);
+            this.btClearTextBox4.TabIndex = 34;
+            this.btClearTextBox4.Text = "X";
+            this.btClearTextBox4.UseVisualStyleBackColor = true;
+            this.btClearTextBox4.Click += new System.EventHandler(this.btClearTextBox4_Click);
+            // 
+            // btClearTextBox3
+            // 
+            this.btClearTextBox3.Enabled = false;
+            this.btClearTextBox3.Location = new System.Drawing.Point(330, 57);
+            this.btClearTextBox3.Name = "btClearTextBox3";
+            this.btClearTextBox3.Size = new System.Drawing.Size(20, 20);
+            this.btClearTextBox3.TabIndex = 33;
+            this.btClearTextBox3.Text = "X";
+            this.btClearTextBox3.UseVisualStyleBackColor = true;
+            this.btClearTextBox3.Click += new System.EventHandler(this.btClearTextBox3_Click);
+            // 
+            // btClearTextBox7
+            // 
+            this.btClearTextBox7.Enabled = false;
+            this.btClearTextBox7.Location = new System.Drawing.Point(330, 161);
+            this.btClearTextBox7.Name = "btClearTextBox7";
+            this.btClearTextBox7.Size = new System.Drawing.Size(20, 20);
+            this.btClearTextBox7.TabIndex = 32;
+            this.btClearTextBox7.Text = "X";
+            this.btClearTextBox7.UseVisualStyleBackColor = true;
+            this.btClearTextBox7.Click += new System.EventHandler(this.btClearTextBox7_Click);
+            // 
             // labelWatchingMode
             // 
             this.labelWatchingMode.AutoSize = true;
-            this.labelWatchingMode.Location = new System.Drawing.Point(268, 529);
+            this.labelWatchingMode.Location = new System.Drawing.Point(119, 507);
             this.labelWatchingMode.Name = "labelWatchingMode";
             this.labelWatchingMode.Size = new System.Drawing.Size(58, 13);
             this.labelWatchingMode.TabIndex = 31;
@@ -176,6 +263,7 @@
             // 
             // comboBoxChangeMode
             // 
+            this.comboBoxChangeMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxChangeMode.FormattingEnabled = true;
             this.comboBoxChangeMode.Items.AddRange(new object[] {
             "Просмотр",
@@ -217,33 +305,36 @@
             // 
             // btSearchEntry
             // 
-            this.btSearchEntry.Location = new System.Drawing.Point(245, 525);
+            this.btSearchEntry.Location = new System.Drawing.Point(244, 499);
             this.btSearchEntry.Name = "btSearchEntry";
             this.btSearchEntry.Size = new System.Drawing.Size(106, 21);
             this.btSearchEntry.TabIndex = 27;
             this.btSearchEntry.Text = "Найти запись";
             this.btSearchEntry.UseVisualStyleBackColor = true;
             this.btSearchEntry.Visible = false;
+            this.btSearchEntry.Click += new System.EventHandler(this.btSearchEntry_Click);
             // 
             // btUpdateEntry
             // 
-            this.btUpdateEntry.Location = new System.Drawing.Point(245, 525);
+            this.btUpdateEntry.Location = new System.Drawing.Point(244, 472);
             this.btUpdateEntry.Name = "btUpdateEntry";
             this.btUpdateEntry.Size = new System.Drawing.Size(106, 21);
             this.btUpdateEntry.TabIndex = 15;
             this.btUpdateEntry.Text = "Обновить запись";
             this.btUpdateEntry.UseVisualStyleBackColor = true;
             this.btUpdateEntry.Visible = false;
+            this.btUpdateEntry.Click += new System.EventHandler(this.btUpdateEntry_Click);
             // 
             // btAddEntry
             // 
-            this.btAddEntry.Location = new System.Drawing.Point(245, 525);
+            this.btAddEntry.Location = new System.Drawing.Point(244, 445);
             this.btAddEntry.Name = "btAddEntry";
             this.btAddEntry.Size = new System.Drawing.Size(106, 21);
             this.btAddEntry.TabIndex = 16;
             this.btAddEntry.Text = "Добавить запись";
             this.btAddEntry.UseVisualStyleBackColor = true;
             this.btAddEntry.Visible = false;
+            this.btAddEntry.Click += new System.EventHandler(this.btAddEntry_Click);
             // 
             // labelTableColumn2
             // 
@@ -259,13 +350,14 @@
             // 
             // btDeleteEntry
             // 
-            this.btDeleteEntry.Location = new System.Drawing.Point(245, 525);
+            this.btDeleteEntry.Location = new System.Drawing.Point(244, 526);
             this.btDeleteEntry.Name = "btDeleteEntry";
             this.btDeleteEntry.Size = new System.Drawing.Size(106, 21);
             this.btDeleteEntry.TabIndex = 14;
             this.btDeleteEntry.Text = "Удалить запись";
             this.btDeleteEntry.UseVisualStyleBackColor = true;
             this.btDeleteEntry.Visible = false;
+            this.btDeleteEntry.Click += new System.EventHandler(this.btDeleteEntry_Click);
             // 
             // labelTableColumn7
             // 
@@ -447,93 +539,6 @@
             this.panelAdaptiveTables.Name = "panelAdaptiveTables";
             this.panelAdaptiveTables.Size = new System.Drawing.Size(955, 552);
             this.panelAdaptiveTables.TabIndex = 17;
-            // 
-            // btClearTextBox7
-            // 
-            this.btClearTextBox7.Enabled = false;
-            this.btClearTextBox7.Location = new System.Drawing.Point(330, 161);
-            this.btClearTextBox7.Name = "btClearTextBox7";
-            this.btClearTextBox7.Size = new System.Drawing.Size(20, 20);
-            this.btClearTextBox7.TabIndex = 32;
-            this.btClearTextBox7.Text = "X";
-            this.btClearTextBox7.UseVisualStyleBackColor = true;
-            this.btClearTextBox7.Click += new System.EventHandler(this.btClearTextBox7_Click);
-            // 
-            // btClearTextBox3
-            // 
-            this.btClearTextBox3.Enabled = false;
-            this.btClearTextBox3.Location = new System.Drawing.Point(330, 57);
-            this.btClearTextBox3.Name = "btClearTextBox3";
-            this.btClearTextBox3.Size = new System.Drawing.Size(20, 20);
-            this.btClearTextBox3.TabIndex = 33;
-            this.btClearTextBox3.Text = "X";
-            this.btClearTextBox3.UseVisualStyleBackColor = true;
-            this.btClearTextBox3.Click += new System.EventHandler(this.btClearTextBox3_Click);
-            // 
-            // btClearTextBox4
-            // 
-            this.btClearTextBox4.Enabled = false;
-            this.btClearTextBox4.Location = new System.Drawing.Point(330, 83);
-            this.btClearTextBox4.Name = "btClearTextBox4";
-            this.btClearTextBox4.Size = new System.Drawing.Size(20, 20);
-            this.btClearTextBox4.TabIndex = 34;
-            this.btClearTextBox4.Text = "X";
-            this.btClearTextBox4.UseVisualStyleBackColor = true;
-            this.btClearTextBox4.Click += new System.EventHandler(this.btClearTextBox4_Click);
-            // 
-            // btClearTextBox5
-            // 
-            this.btClearTextBox5.Enabled = false;
-            this.btClearTextBox5.Location = new System.Drawing.Point(330, 109);
-            this.btClearTextBox5.Name = "btClearTextBox5";
-            this.btClearTextBox5.Size = new System.Drawing.Size(20, 20);
-            this.btClearTextBox5.TabIndex = 35;
-            this.btClearTextBox5.Text = "X";
-            this.btClearTextBox5.UseVisualStyleBackColor = true;
-            this.btClearTextBox5.Click += new System.EventHandler(this.btClearTextBox5_Click);
-            // 
-            // btClearTextBox6
-            // 
-            this.btClearTextBox6.Enabled = false;
-            this.btClearTextBox6.Location = new System.Drawing.Point(330, 135);
-            this.btClearTextBox6.Name = "btClearTextBox6";
-            this.btClearTextBox6.Size = new System.Drawing.Size(20, 20);
-            this.btClearTextBox6.TabIndex = 36;
-            this.btClearTextBox6.Text = "X";
-            this.btClearTextBox6.UseVisualStyleBackColor = true;
-            this.btClearTextBox6.Click += new System.EventHandler(this.btClearTextBox6_Click);
-            // 
-            // btClearTextBox2
-            // 
-            this.btClearTextBox2.Enabled = false;
-            this.btClearTextBox2.Location = new System.Drawing.Point(330, 30);
-            this.btClearTextBox2.Name = "btClearTextBox2";
-            this.btClearTextBox2.Size = new System.Drawing.Size(20, 20);
-            this.btClearTextBox2.TabIndex = 37;
-            this.btClearTextBox2.Text = "X";
-            this.btClearTextBox2.UseVisualStyleBackColor = true;
-            this.btClearTextBox2.Click += new System.EventHandler(this.btClearTextBox2_Click);
-            // 
-            // btClearTextBox1
-            // 
-            this.btClearTextBox1.Enabled = false;
-            this.btClearTextBox1.Location = new System.Drawing.Point(330, 5);
-            this.btClearTextBox1.Name = "btClearTextBox1";
-            this.btClearTextBox1.Size = new System.Drawing.Size(20, 20);
-            this.btClearTextBox1.TabIndex = 38;
-            this.btClearTextBox1.Text = "X";
-            this.btClearTextBox1.UseVisualStyleBackColor = true;
-            this.btClearTextBox1.Visible = false;
-            this.btClearTextBox1.Click += new System.EventHandler(this.btClearTextBox1_Click);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 529);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(82, 13);
-            this.label2.TabIndex = 39;
-            this.label2.Text = "Режим работы";
             // 
             // FormMainWindow
             // 
