@@ -42,6 +42,7 @@ namespace UP_FireStation
         private void btClearTextBox5_Click(object sender, EventArgs e) => textBoxTableColumn5.Text = "";
         private void btClearTextBox6_Click(object sender, EventArgs e) => textBoxTableColumn6.Text = "";
         private void btClearTextBox7_Click(object sender, EventArgs e) => textBoxTableColumn7.Text = "";
+        private void btClearTextBoxDeleteID_Click(object sender, EventArgs e) => textBoxDeleteID.Text = "";
         /*/\Кнопки для очистки полей/\*/
 
 
@@ -135,7 +136,10 @@ namespace UP_FireStation
         private void comboBoxChangeTable_SelectedIndexChanged(object sender, EventArgs e)
         {
             UpdateBS();
-
+            AutoSetTextBoxValue();
+        }
+        private void AutoSetTextBoxValue()
+        {
             if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные отряды")
             {
                 SetLableValue(labelTableColumn1, "Идентификатор");
@@ -174,17 +178,15 @@ namespace UP_FireStation
                 SetLableValue(labelTableColumn8, "Дата списания");
             }
         }
-        private void SetTextBoxValue(TextBox textBox, string tb_value, Label lable, string lable_value)
+        private void SetLableValue(Label lable, string lable_value)
         {
-            textBox.Enabled = true;
-            textBox.Text = tb_value;
             lable.Text = lable_value;
         }
         /*/\Переключение таблиц/\*/
 
 
 
-        /*\/Поведение вкладки управления данными записи из таблицы\/*/
+        /*\/Режим управления данными\/*/
         private void comboBoxChangeMode_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBoxChangeMode.SelectedItem?.ToString() == "Просмотр")
@@ -204,6 +206,9 @@ namespace UP_FireStation
                 btClearTextBox.Visible = false;
                 dateTimePicker1.Enabled = false;
                 dateTimePicker2.Enabled = false;
+                AutoSetTextBoxValue();
+                panelDeleteID.Visible = false; // \/|-Видимость панели удаления по ID 
+                panelDeleteID.Enabled = false; // /\|-Активация панели удаления по ID
             }
             else if (comboBoxChangeMode.SelectedItem?.ToString() == "Поиск")
             {
@@ -222,7 +227,9 @@ namespace UP_FireStation
                 btClearTextBox.Visible = true;
                 dateTimePicker1.Enabled = true;
                 dateTimePicker2.Enabled = true;
-
+                AutoSetTextBoxValue();
+                panelDeleteID.Visible = false; // \/|-Видимость панели удаления по ID 
+                panelDeleteID.Enabled = false; // /\|-Активация панели удаления по ID
             }
             else if (comboBoxChangeMode.SelectedItem?.ToString() == "Добавление")
             {
@@ -241,44 +248,9 @@ namespace UP_FireStation
                 btClearTextBox.Visible = true;
                 dateTimePicker1.Enabled = true;
                 dateTimePicker2.Enabled = true;
-
-                if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные отряды")
-                {
-                    SetLableValue(labelTableColumn1, "Идентификатор");
-                    SetLableValue(labelTableColumn2, "Название");
-                    SetLableValue(labelTableColumn3, "Статус");
-                }
-                else if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные машины")
-                {
-                    SetLableValue(labelTableColumn1, "Идентификатор");
-                    SetLableValue(labelTableColumn2, "Идентификатор отряда");
-                    SetLableValue(labelTableColumn3, "Класс");
-                    SetLableValue(labelTableColumn4, "Марка");
-                    SetLableValue(labelTableColumn5, "Модель");
-                    SetLableValue(labelTableColumn6, "Пробег");
-                    SetLableValue(labelTableColumn7, "Состояние");
-                    SetLableValue(labelTableColumn8, "Дата выпуска");
-                    SetLableValue(labelTableColumn9, "Дата списания");
-
-                }
-                else if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные")
-                {
-                    SetLableValue(labelTableColumn1, "Идентификатор");
-                    SetLableValue(labelTableColumn2, "Идентификатор отряда");
-                    SetLableValue(labelTableColumn3, "Имя");
-                    SetLableValue(labelTableColumn4, "Фамилия");
-                    SetLableValue(labelTableColumn5, "Отчество");
-                    SetLableValue(labelTableColumn8, "Дата рождения");
-                }
-                else if (comboBoxChangeTable.SelectedItem?.ToString() == "Оборудование")
-                {
-                    SetLableValue(labelTableColumn1, "Идентификатор");
-                    SetLableValue(labelTableColumn2, "Идентификатор отряда");
-                    SetLableValue(labelTableColumn3, "Тип");
-                    SetLableValue(labelTableColumn4, "Состояние");
-                    SetLableValue(labelTableColumn5, "Количество");
-                    SetLableValue(labelTableColumn8, "Дата списания");
-                }
+                AutoSetTextBoxValue();
+                panelDeleteID.Visible = false; // \/|-Видимость панели удаления по ID 
+                panelDeleteID.Enabled = false; // /\|-Активация панели удаления по ID
             }
             else if (comboBoxChangeMode.SelectedItem?.ToString() == "Обновление")
             {
@@ -297,13 +269,16 @@ namespace UP_FireStation
                 btClearTextBox.Visible = true;
                 dateTimePicker1.Enabled = true;
                 dateTimePicker2.Enabled = true;
+                AutoSetTextBoxValue();
+                panelDeleteID.Visible = false; // \/|-Видимость панели удаления по ID 
+                panelDeleteID.Enabled = false; // /\|-Активация панели удаления по ID
             }
             else if (comboBoxChangeMode.SelectedItem?.ToString() == "Удаление")
             {
                 ClearLable();
                 ClearTextBox();
                 textBoxTableColumn1.Visible = true;
-                PropertyEnabledAndVisibleButtonsClearTextBox(false, "visible");
+                PropertyEnabledAndVisibleButtonsClearTextBox(false);
                 PropertyReadOnlyTextBox(true);
                 btDeleteEntry.Visible = true;
                 labelWatchingMode.Visible = false;
@@ -315,15 +290,19 @@ namespace UP_FireStation
                 btClearTextBox.Visible = false;
                 dateTimePicker1.Enabled = false;
                 dateTimePicker2.Enabled = false;
+                AutoSetTextBoxValue();
+                panelDeleteID.Visible = true; // \/|-Видимость панели удаления по ID 
+                panelDeleteID.Enabled = true; // /\|-Активация панели удаления по ID
             }
         }
-        /*/\Поведение вкладки управления данными записи из таблицы/\*/
+        /*/\Режим управления данными/\*/
+
 
 
         /*\/Выбор записи из dataGridView\/*/
         private void dataGridView1_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
-            if (comboBoxChangeMode.SelectedItem?.ToString() != "Добавление")
+            if (comboBoxChangeMode.SelectedItem?.ToString() != "Добавление" && comboBoxChangeMode.SelectedItem?.ToString() != "Удаление по ID")
             {
                 try
                 {
@@ -400,10 +379,25 @@ namespace UP_FireStation
                     Debug.WriteLine("ArgumentOutOfRangeException: Загрузка базы данных!");
                 }
             }
+            else if (comboBoxChangeMode.SelectedItem?.ToString() == "Удаление по ID")
+            {
+                try
+                {
+                    DataGridViewRow selectedRow = dataGridView1.SelectedRows[0];
+                    string id = selectedRow.Cells[0].Value?.ToString();
+                    SetTextBoxValue(textBoxTableColumn1, id, labelTableColumn1, "Идентификатор");
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    Debug.WriteLine("ArgumentOutOfRangeException: Загрузка базы данных!");
+                }
+            }
 
         }
-        private void SetLableValue(Label lable, string lable_value)
+        private void SetTextBoxValue(TextBox textBox, string tb_value, Label lable, string lable_value)
         {
+            textBox.Enabled = true;
+            textBox.Text = tb_value;
             lable.Text = lable_value;
         }
         /*/\Выбор записи из dataGridView/\*/
@@ -452,7 +446,7 @@ namespace UP_FireStation
 
 
         /*\/Изменения свойств элементов в форме\/*/
-        private void PropertyEnabledAndVisibleButtonsClearTextBox(bool variant, string func = "none")
+        private void PropertyEnabledAndVisibleButtonsClearTextBox(bool variant)
         {
             if (variant == true)
             {
@@ -570,6 +564,18 @@ namespace UP_FireStation
                 MessageBox.Show("Вы не выбрали запись, которую нужно удалить", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        private void btDeleteID_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                CommandSQL($"DELETE FROM {selectedTable()} WHERE {selectedId("OnlyID")}");
+                UpdateBS();
+            }
+            catch (PostgresException)
+            {
+                MessageBox.Show("Вы не ввели ID", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         //Вспомогательные методы\/
         private string selectedTable()
         {
@@ -672,23 +678,34 @@ namespace UP_FireStation
             }
             
         }
-        private string selectedId()
+        private string selectedId(string mode = "default")
         {
+            string textBoxMode;
+
+            if (mode == "OnlyID")
+            {
+                textBoxMode = textBoxDeleteID.Text;
+            }
+            else
+            {
+                textBoxMode = textBoxTableColumn1.Text;
+            }
+
             if (selectedTable() == "firesquad")
             {
-                return $"id_firesquad = {textBoxTableColumn1.Text}";
+                return $"id_firesquad = {textBoxMode}";
             }
             else if (selectedTable() == "fireman")
             {
-                return "Error";
+                return $"id_fireman = {textBoxMode}";
             }
             else if (selectedTable() == "firetruck")
             {
-                return "Error";
+                return $"id_firetruck = {textBoxMode}";
             }
             else if (selectedTable() == "equipment")
             {
-                return "Error";
+                return $"id_equipment = {textBoxMode}";
             }
             return "Error";
         }

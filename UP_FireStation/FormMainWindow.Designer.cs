@@ -69,9 +69,15 @@
             this.textBoxTableColumn1 = new System.Windows.Forms.TextBox();
             this.labelTableColumn1 = new System.Windows.Forms.Label();
             this.panelAdaptiveTables = new System.Windows.Forms.Panel();
+            this.btDeleteID = new System.Windows.Forms.Button();
+            this.labelDeleteId = new System.Windows.Forms.Label();
+            this.textBoxDeleteID = new System.Windows.Forms.TextBox();
+            this.panelDeleteID = new System.Windows.Forms.Panel();
+            this.btClearTextBoxDeleteID = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panelSearch.SuspendLayout();
             this.panelAdaptiveTables.SuspendLayout();
+            this.panelDeleteID.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridView1
@@ -124,6 +130,7 @@
             // 
             this.panelSearch.BackColor = System.Drawing.SystemColors.Control;
             this.panelSearch.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelSearch.Controls.Add(this.panelDeleteID);
             this.panelSearch.Controls.Add(this.label2);
             this.panelSearch.Controls.Add(this.btClearTextBox1);
             this.panelSearch.Controls.Add(this.btClearTextBox2);
@@ -540,6 +547,58 @@
             this.panelAdaptiveTables.Size = new System.Drawing.Size(955, 552);
             this.panelAdaptiveTables.TabIndex = 17;
             // 
+            // btDeleteID
+            // 
+            this.btDeleteID.Location = new System.Drawing.Point(3, 28);
+            this.btDeleteID.Name = "btDeleteID";
+            this.btDeleteID.Size = new System.Drawing.Size(99, 23);
+            this.btDeleteID.TabIndex = 40;
+            this.btDeleteID.Text = "Удалить по ID";
+            this.btDeleteID.UseVisualStyleBackColor = true;
+            this.btDeleteID.Click += new System.EventHandler(this.btDeleteID_Click);
+            // 
+            // labelDeleteId
+            // 
+            this.labelDeleteId.AutoSize = true;
+            this.labelDeleteId.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelDeleteId.ForeColor = System.Drawing.Color.Black;
+            this.labelDeleteId.Location = new System.Drawing.Point(-1, 3);
+            this.labelDeleteId.Name = "labelDeleteId";
+            this.labelDeleteId.Size = new System.Drawing.Size(26, 20);
+            this.labelDeleteId.TabIndex = 42;
+            this.labelDeleteId.Text = "ID";
+            // 
+            // textBoxDeleteID
+            // 
+            this.textBoxDeleteID.Location = new System.Drawing.Point(31, 3);
+            this.textBoxDeleteID.Name = "textBoxDeleteID";
+            this.textBoxDeleteID.Size = new System.Drawing.Size(45, 20);
+            this.textBoxDeleteID.TabIndex = 41;
+            // 
+            // panelDeleteID
+            // 
+            this.panelDeleteID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelDeleteID.Controls.Add(this.btClearTextBoxDeleteID);
+            this.panelDeleteID.Controls.Add(this.btDeleteID);
+            this.panelDeleteID.Controls.Add(this.labelDeleteId);
+            this.panelDeleteID.Controls.Add(this.textBoxDeleteID);
+            this.panelDeleteID.Enabled = false;
+            this.panelDeleteID.Location = new System.Drawing.Point(245, 464);
+            this.panelDeleteID.Name = "panelDeleteID";
+            this.panelDeleteID.Size = new System.Drawing.Size(106, 56);
+            this.panelDeleteID.TabIndex = 43;
+            this.panelDeleteID.Visible = false;
+            // 
+            // btClearTextBoxDeleteID
+            // 
+            this.btClearTextBoxDeleteID.Location = new System.Drawing.Point(82, 3);
+            this.btClearTextBoxDeleteID.Name = "btClearTextBoxDeleteID";
+            this.btClearTextBoxDeleteID.Size = new System.Drawing.Size(20, 20);
+            this.btClearTextBoxDeleteID.TabIndex = 43;
+            this.btClearTextBoxDeleteID.Text = "X";
+            this.btClearTextBoxDeleteID.UseVisualStyleBackColor = true;
+            this.btClearTextBoxDeleteID.Click += new System.EventHandler(this.btClearTextBoxDeleteID_Click);
+            // 
             // FormMainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -556,6 +615,8 @@
             this.panelSearch.PerformLayout();
             this.panelAdaptiveTables.ResumeLayout(false);
             this.panelAdaptiveTables.PerformLayout();
+            this.panelDeleteID.ResumeLayout(false);
+            this.panelDeleteID.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -603,5 +664,10 @@
         private System.Windows.Forms.Button btClearTextBox7;
         private System.Windows.Forms.Button btClearTextBox1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Panel panelDeleteID;
+        private System.Windows.Forms.Button btDeleteID;
+        private System.Windows.Forms.Label labelDeleteId;
+        private System.Windows.Forms.TextBox textBoxDeleteID;
+        private System.Windows.Forms.Button btClearTextBoxDeleteID;
     }
 }
