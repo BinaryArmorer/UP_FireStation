@@ -39,6 +39,7 @@
             this.labelDeleteId = new System.Windows.Forms.Label();
             this.textBoxDeleteID = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.btSearchEntryID = new System.Windows.Forms.Button();
             this.btClearTextBox1 = new System.Windows.Forms.Button();
             this.btClearTextBox2 = new System.Windows.Forms.Button();
             this.btClearTextBox6 = new System.Windows.Forms.Button();
@@ -76,6 +77,8 @@
             this.panelAdaptiveTables = new System.Windows.Forms.Panel();
             this.panelRequestSQL = new System.Windows.Forms.Panel();
             this.textBoxRequestSQL = new System.Windows.Forms.TextBox();
+            this.btClearTextBox8 = new System.Windows.Forms.Button();
+            this.btClearTextBox9 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panelSearch.SuspendLayout();
             this.panelDeleteID.SuspendLayout();
@@ -133,8 +136,11 @@
             // 
             this.panelSearch.BackColor = System.Drawing.SystemColors.Control;
             this.panelSearch.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelSearch.Controls.Add(this.btClearTextBox9);
+            this.panelSearch.Controls.Add(this.btClearTextBox8);
             this.panelSearch.Controls.Add(this.panelDeleteID);
             this.panelSearch.Controls.Add(this.label2);
+            this.panelSearch.Controls.Add(this.btSearchEntryID);
             this.panelSearch.Controls.Add(this.btClearTextBox1);
             this.panelSearch.Controls.Add(this.btClearTextBox2);
             this.panelSearch.Controls.Add(this.btClearTextBox6);
@@ -183,7 +189,7 @@
             this.panelDeleteID.Controls.Add(this.labelDeleteId);
             this.panelDeleteID.Controls.Add(this.textBoxDeleteID);
             this.panelDeleteID.Enabled = false;
-            this.panelDeleteID.Location = new System.Drawing.Point(245, 429);
+            this.panelDeleteID.Location = new System.Drawing.Point(244, 429);
             this.panelDeleteID.Name = "panelDeleteID";
             this.panelDeleteID.Size = new System.Drawing.Size(106, 56);
             this.panelDeleteID.TabIndex = 43;
@@ -201,7 +207,7 @@
             // 
             // btDeleteID
             // 
-            this.btDeleteID.Location = new System.Drawing.Point(3, 28);
+            this.btDeleteID.Location = new System.Drawing.Point(3, 29);
             this.btDeleteID.Name = "btDeleteID";
             this.btDeleteID.Size = new System.Drawing.Size(99, 23);
             this.btDeleteID.TabIndex = 40;
@@ -235,6 +241,18 @@
             this.label2.Size = new System.Drawing.Size(82, 13);
             this.label2.TabIndex = 39;
             this.label2.Text = "Режим работы";
+            // 
+            // btSearchEntryID
+            // 
+            this.btSearchEntryID.Enabled = false;
+            this.btSearchEntryID.Location = new System.Drawing.Point(245, 464);
+            this.btSearchEntryID.Name = "btSearchEntryID";
+            this.btSearchEntryID.Size = new System.Drawing.Size(106, 21);
+            this.btSearchEntryID.TabIndex = 44;
+            this.btSearchEntryID.Text = "Найти по ID";
+            this.btSearchEntryID.UseVisualStyleBackColor = true;
+            this.btSearchEntryID.Visible = false;
+            this.btSearchEntryID.Click += new System.EventHandler(this.btSearchEntryID_Click);
             // 
             // btClearTextBox1
             // 
@@ -342,7 +360,7 @@
             // dateTimePicker2
             // 
             this.dateTimePicker2.Enabled = false;
-            this.dateTimePicker2.Location = new System.Drawing.Point(330, 213);
+            this.dateTimePicker2.Location = new System.Drawing.Point(305, 214);
             this.dateTimePicker2.Name = "dateTimePicker2";
             this.dateTimePicker2.Size = new System.Drawing.Size(20, 20);
             this.dateTimePicker2.TabIndex = 29;
@@ -351,7 +369,7 @@
             // dateTimePicker1
             // 
             this.dateTimePicker1.Enabled = false;
-            this.dateTimePicker1.Location = new System.Drawing.Point(330, 187);
+            this.dateTimePicker1.Location = new System.Drawing.Point(305, 188);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(20, 20);
             this.dateTimePicker1.TabIndex = 28;
@@ -512,7 +530,7 @@
             this.textBoxTableColumn9.Location = new System.Drawing.Point(203, 213);
             this.textBoxTableColumn9.Name = "textBoxTableColumn9";
             this.textBoxTableColumn9.ReadOnly = true;
-            this.textBoxTableColumn9.Size = new System.Drawing.Size(122, 20);
+            this.textBoxTableColumn9.Size = new System.Drawing.Size(96, 20);
             this.textBoxTableColumn9.TabIndex = 17;
             // 
             // textBoxTableColumn8
@@ -520,7 +538,7 @@
             this.textBoxTableColumn8.Location = new System.Drawing.Point(203, 187);
             this.textBoxTableColumn8.Name = "textBoxTableColumn8";
             this.textBoxTableColumn8.ReadOnly = true;
-            this.textBoxTableColumn8.Size = new System.Drawing.Size(122, 20);
+            this.textBoxTableColumn8.Size = new System.Drawing.Size(96, 20);
             this.textBoxTableColumn8.TabIndex = 15;
             // 
             // textBoxTableColumn7
@@ -625,6 +643,28 @@
             this.textBoxRequestSQL.TabIndex = 0;
             this.textBoxRequestSQL.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // btClearTextBox8
+            // 
+            this.btClearTextBox8.Enabled = false;
+            this.btClearTextBox8.Location = new System.Drawing.Point(330, 188);
+            this.btClearTextBox8.Name = "btClearTextBox8";
+            this.btClearTextBox8.Size = new System.Drawing.Size(20, 20);
+            this.btClearTextBox8.TabIndex = 45;
+            this.btClearTextBox8.Text = "X";
+            this.btClearTextBox8.UseVisualStyleBackColor = true;
+            this.btClearTextBox8.Click += new System.EventHandler(this.btClearTextBox8_Click);
+            // 
+            // btClearTextBox9
+            // 
+            this.btClearTextBox9.Enabled = false;
+            this.btClearTextBox9.Location = new System.Drawing.Point(330, 214);
+            this.btClearTextBox9.Name = "btClearTextBox9";
+            this.btClearTextBox9.Size = new System.Drawing.Size(20, 20);
+            this.btClearTextBox9.TabIndex = 46;
+            this.btClearTextBox9.Text = "X";
+            this.btClearTextBox9.UseVisualStyleBackColor = true;
+            this.btClearTextBox9.Click += new System.EventHandler(this.btClearTextBox9_Click);
+            // 
             // FormMainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -700,5 +740,8 @@
         private System.Windows.Forms.Button btClearTextBoxDeleteID;
         private System.Windows.Forms.Panel panelRequestSQL;
         private System.Windows.Forms.TextBox textBoxRequestSQL;
+        private System.Windows.Forms.Button btSearchEntryID;
+        private System.Windows.Forms.Button btClearTextBox9;
+        private System.Windows.Forms.Button btClearTextBox8;
     }
 }
