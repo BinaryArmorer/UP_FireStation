@@ -33,6 +33,11 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btUpdate = new System.Windows.Forms.Button();
             this.panelSearch = new System.Windows.Forms.Panel();
+            this.panelDeleteID = new System.Windows.Forms.Panel();
+            this.btClearTextBoxDeleteID = new System.Windows.Forms.Button();
+            this.btDeleteID = new System.Windows.Forms.Button();
+            this.labelDeleteId = new System.Windows.Forms.Label();
+            this.textBoxDeleteID = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.btClearTextBox1 = new System.Windows.Forms.Button();
             this.btClearTextBox2 = new System.Windows.Forms.Button();
@@ -69,15 +74,13 @@
             this.textBoxTableColumn1 = new System.Windows.Forms.TextBox();
             this.labelTableColumn1 = new System.Windows.Forms.Label();
             this.panelAdaptiveTables = new System.Windows.Forms.Panel();
-            this.btDeleteID = new System.Windows.Forms.Button();
-            this.labelDeleteId = new System.Windows.Forms.Label();
-            this.textBoxDeleteID = new System.Windows.Forms.TextBox();
-            this.panelDeleteID = new System.Windows.Forms.Panel();
-            this.btClearTextBoxDeleteID = new System.Windows.Forms.Button();
+            this.panelRequestSQL = new System.Windows.Forms.Panel();
+            this.textBoxRequestSQL = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panelSearch.SuspendLayout();
-            this.panelAdaptiveTables.SuspendLayout();
             this.panelDeleteID.SuspendLayout();
+            this.panelAdaptiveTables.SuspendLayout();
+            this.panelRequestSQL.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridView1
@@ -88,7 +91,7 @@
             this.dataGridView1.Location = new System.Drawing.Point(3, 28);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(947, 519);
+            this.dataGridView1.Size = new System.Drawing.Size(947, 485);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_RowEnter);
             // 
@@ -169,13 +172,65 @@
             this.panelSearch.ForeColor = System.Drawing.Color.Black;
             this.panelSearch.Location = new System.Drawing.Point(973, 12);
             this.panelSearch.Name = "panelSearch";
-            this.panelSearch.Size = new System.Drawing.Size(356, 552);
+            this.panelSearch.Size = new System.Drawing.Size(356, 518);
             this.panelSearch.TabIndex = 13;
+            // 
+            // panelDeleteID
+            // 
+            this.panelDeleteID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelDeleteID.Controls.Add(this.btClearTextBoxDeleteID);
+            this.panelDeleteID.Controls.Add(this.btDeleteID);
+            this.panelDeleteID.Controls.Add(this.labelDeleteId);
+            this.panelDeleteID.Controls.Add(this.textBoxDeleteID);
+            this.panelDeleteID.Enabled = false;
+            this.panelDeleteID.Location = new System.Drawing.Point(245, 429);
+            this.panelDeleteID.Name = "panelDeleteID";
+            this.panelDeleteID.Size = new System.Drawing.Size(106, 56);
+            this.panelDeleteID.TabIndex = 43;
+            this.panelDeleteID.Visible = false;
+            // 
+            // btClearTextBoxDeleteID
+            // 
+            this.btClearTextBoxDeleteID.Location = new System.Drawing.Point(82, 3);
+            this.btClearTextBoxDeleteID.Name = "btClearTextBoxDeleteID";
+            this.btClearTextBoxDeleteID.Size = new System.Drawing.Size(20, 20);
+            this.btClearTextBoxDeleteID.TabIndex = 43;
+            this.btClearTextBoxDeleteID.Text = "X";
+            this.btClearTextBoxDeleteID.UseVisualStyleBackColor = true;
+            this.btClearTextBoxDeleteID.Click += new System.EventHandler(this.btClearTextBoxDeleteID_Click);
+            // 
+            // btDeleteID
+            // 
+            this.btDeleteID.Location = new System.Drawing.Point(3, 28);
+            this.btDeleteID.Name = "btDeleteID";
+            this.btDeleteID.Size = new System.Drawing.Size(99, 23);
+            this.btDeleteID.TabIndex = 40;
+            this.btDeleteID.Text = "Удалить по ID";
+            this.btDeleteID.UseVisualStyleBackColor = true;
+            this.btDeleteID.Click += new System.EventHandler(this.btDeleteID_Click);
+            // 
+            // labelDeleteId
+            // 
+            this.labelDeleteId.AutoSize = true;
+            this.labelDeleteId.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelDeleteId.ForeColor = System.Drawing.Color.Black;
+            this.labelDeleteId.Location = new System.Drawing.Point(-1, 3);
+            this.labelDeleteId.Name = "labelDeleteId";
+            this.labelDeleteId.Size = new System.Drawing.Size(26, 20);
+            this.labelDeleteId.TabIndex = 42;
+            this.labelDeleteId.Text = "ID";
+            // 
+            // textBoxDeleteID
+            // 
+            this.textBoxDeleteID.Location = new System.Drawing.Point(31, 3);
+            this.textBoxDeleteID.Name = "textBoxDeleteID";
+            this.textBoxDeleteID.Size = new System.Drawing.Size(45, 20);
+            this.textBoxDeleteID.TabIndex = 41;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 529);
+            this.label2.Location = new System.Drawing.Point(6, 494);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(82, 13);
             this.label2.TabIndex = 39;
@@ -262,7 +317,7 @@
             // labelWatchingMode
             // 
             this.labelWatchingMode.AutoSize = true;
-            this.labelWatchingMode.Location = new System.Drawing.Point(267, 530);
+            this.labelWatchingMode.Location = new System.Drawing.Point(267, 495);
             this.labelWatchingMode.Name = "labelWatchingMode";
             this.labelWatchingMode.Size = new System.Drawing.Size(58, 13);
             this.labelWatchingMode.TabIndex = 31;
@@ -278,7 +333,7 @@
             "Добавление",
             "Обновление",
             "Удаление"});
-            this.comboBoxChangeMode.Location = new System.Drawing.Point(94, 526);
+            this.comboBoxChangeMode.Location = new System.Drawing.Point(94, 491);
             this.comboBoxChangeMode.Name = "comboBoxChangeMode";
             this.comboBoxChangeMode.Size = new System.Drawing.Size(121, 21);
             this.comboBoxChangeMode.TabIndex = 30;
@@ -291,6 +346,7 @@
             this.dateTimePicker2.Name = "dateTimePicker2";
             this.dateTimePicker2.Size = new System.Drawing.Size(20, 20);
             this.dateTimePicker2.TabIndex = 29;
+            this.dateTimePicker2.ValueChanged += new System.EventHandler(this.dateTimePicker2_ValueChanged);
             // 
             // dateTimePicker1
             // 
@@ -299,6 +355,7 @@
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(20, 20);
             this.dateTimePicker1.TabIndex = 28;
+            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // btClearTextBox
             // 
@@ -312,7 +369,7 @@
             // 
             // btSearchEntry
             // 
-            this.btSearchEntry.Location = new System.Drawing.Point(245, 526);
+            this.btSearchEntry.Location = new System.Drawing.Point(245, 491);
             this.btSearchEntry.Name = "btSearchEntry";
             this.btSearchEntry.Size = new System.Drawing.Size(106, 21);
             this.btSearchEntry.TabIndex = 27;
@@ -323,7 +380,7 @@
             // 
             // btUpdateEntry
             // 
-            this.btUpdateEntry.Location = new System.Drawing.Point(245, 526);
+            this.btUpdateEntry.Location = new System.Drawing.Point(245, 491);
             this.btUpdateEntry.Name = "btUpdateEntry";
             this.btUpdateEntry.Size = new System.Drawing.Size(106, 21);
             this.btUpdateEntry.TabIndex = 15;
@@ -334,7 +391,7 @@
             // 
             // btAddEntry
             // 
-            this.btAddEntry.Location = new System.Drawing.Point(245, 526);
+            this.btAddEntry.Location = new System.Drawing.Point(245, 491);
             this.btAddEntry.Name = "btAddEntry";
             this.btAddEntry.Size = new System.Drawing.Size(106, 21);
             this.btAddEntry.TabIndex = 16;
@@ -357,7 +414,7 @@
             // 
             // btDeleteEntry
             // 
-            this.btDeleteEntry.Location = new System.Drawing.Point(244, 526);
+            this.btDeleteEntry.Location = new System.Drawing.Point(244, 491);
             this.btDeleteEntry.Name = "btDeleteEntry";
             this.btDeleteEntry.Size = new System.Drawing.Size(106, 21);
             this.btDeleteEntry.TabIndex = 14;
@@ -544,60 +601,29 @@
             this.panelAdaptiveTables.Controls.Add(this.btUpdate);
             this.panelAdaptiveTables.Location = new System.Drawing.Point(12, 12);
             this.panelAdaptiveTables.Name = "panelAdaptiveTables";
-            this.panelAdaptiveTables.Size = new System.Drawing.Size(955, 552);
+            this.panelAdaptiveTables.Size = new System.Drawing.Size(955, 518);
             this.panelAdaptiveTables.TabIndex = 17;
             // 
-            // btDeleteID
+            // panelRequestSQL
             // 
-            this.btDeleteID.Location = new System.Drawing.Point(3, 28);
-            this.btDeleteID.Name = "btDeleteID";
-            this.btDeleteID.Size = new System.Drawing.Size(99, 23);
-            this.btDeleteID.TabIndex = 40;
-            this.btDeleteID.Text = "Удалить по ID";
-            this.btDeleteID.UseVisualStyleBackColor = true;
-            this.btDeleteID.Click += new System.EventHandler(this.btDeleteID_Click);
+            this.panelRequestSQL.BackColor = System.Drawing.SystemColors.Control;
+            this.panelRequestSQL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelRequestSQL.Controls.Add(this.textBoxRequestSQL);
+            this.panelRequestSQL.Location = new System.Drawing.Point(12, 536);
+            this.panelRequestSQL.Name = "panelRequestSQL";
+            this.panelRequestSQL.Size = new System.Drawing.Size(1317, 30);
+            this.panelRequestSQL.TabIndex = 18;
             // 
-            // labelDeleteId
+            // textBoxRequestSQL
             // 
-            this.labelDeleteId.AutoSize = true;
-            this.labelDeleteId.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelDeleteId.ForeColor = System.Drawing.Color.Black;
-            this.labelDeleteId.Location = new System.Drawing.Point(-1, 3);
-            this.labelDeleteId.Name = "labelDeleteId";
-            this.labelDeleteId.Size = new System.Drawing.Size(26, 20);
-            this.labelDeleteId.TabIndex = 42;
-            this.labelDeleteId.Text = "ID";
-            // 
-            // textBoxDeleteID
-            // 
-            this.textBoxDeleteID.Location = new System.Drawing.Point(31, 3);
-            this.textBoxDeleteID.Name = "textBoxDeleteID";
-            this.textBoxDeleteID.Size = new System.Drawing.Size(45, 20);
-            this.textBoxDeleteID.TabIndex = 41;
-            // 
-            // panelDeleteID
-            // 
-            this.panelDeleteID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelDeleteID.Controls.Add(this.btClearTextBoxDeleteID);
-            this.panelDeleteID.Controls.Add(this.btDeleteID);
-            this.panelDeleteID.Controls.Add(this.labelDeleteId);
-            this.panelDeleteID.Controls.Add(this.textBoxDeleteID);
-            this.panelDeleteID.Enabled = false;
-            this.panelDeleteID.Location = new System.Drawing.Point(245, 464);
-            this.panelDeleteID.Name = "panelDeleteID";
-            this.panelDeleteID.Size = new System.Drawing.Size(106, 56);
-            this.panelDeleteID.TabIndex = 43;
-            this.panelDeleteID.Visible = false;
-            // 
-            // btClearTextBoxDeleteID
-            // 
-            this.btClearTextBoxDeleteID.Location = new System.Drawing.Point(82, 3);
-            this.btClearTextBoxDeleteID.Name = "btClearTextBoxDeleteID";
-            this.btClearTextBoxDeleteID.Size = new System.Drawing.Size(20, 20);
-            this.btClearTextBoxDeleteID.TabIndex = 43;
-            this.btClearTextBoxDeleteID.Text = "X";
-            this.btClearTextBoxDeleteID.UseVisualStyleBackColor = true;
-            this.btClearTextBoxDeleteID.Click += new System.EventHandler(this.btClearTextBoxDeleteID_Click);
+            this.textBoxRequestSQL.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.textBoxRequestSQL.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxRequestSQL.Location = new System.Drawing.Point(3, 3);
+            this.textBoxRequestSQL.Name = "textBoxRequestSQL";
+            this.textBoxRequestSQL.ReadOnly = true;
+            this.textBoxRequestSQL.Size = new System.Drawing.Size(1309, 22);
+            this.textBoxRequestSQL.TabIndex = 0;
+            this.textBoxRequestSQL.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // FormMainWindow
             // 
@@ -605,6 +631,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Azure;
             this.ClientSize = new System.Drawing.Size(1341, 576);
+            this.Controls.Add(this.panelRequestSQL);
             this.Controls.Add(this.panelAdaptiveTables);
             this.Controls.Add(this.panelSearch);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -613,10 +640,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panelSearch.ResumeLayout(false);
             this.panelSearch.PerformLayout();
-            this.panelAdaptiveTables.ResumeLayout(false);
-            this.panelAdaptiveTables.PerformLayout();
             this.panelDeleteID.ResumeLayout(false);
             this.panelDeleteID.PerformLayout();
+            this.panelAdaptiveTables.ResumeLayout(false);
+            this.panelAdaptiveTables.PerformLayout();
+            this.panelRequestSQL.ResumeLayout(false);
+            this.panelRequestSQL.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -669,5 +698,7 @@
         private System.Windows.Forms.Label labelDeleteId;
         private System.Windows.Forms.TextBox textBoxDeleteID;
         private System.Windows.Forms.Button btClearTextBoxDeleteID;
+        private System.Windows.Forms.Panel panelRequestSQL;
+        private System.Windows.Forms.TextBox textBoxRequestSQL;
     }
 }

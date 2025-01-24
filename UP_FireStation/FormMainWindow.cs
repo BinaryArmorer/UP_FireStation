@@ -26,6 +26,7 @@ namespace UP_FireStation
             comboBoxChangeTable.SelectedIndex = 2;
             comboBoxChangeMode.SelectedIndex = 0;
         }
+
         private string connectionString = "Server=localhost; Port=5432; Database=FireStationUP; User ID=postgres; Password=zzxxvwgh;";
         private BindingSource BS_fireman;
         private BindingSource BS_firesquad;
@@ -44,6 +45,18 @@ namespace UP_FireStation
         private void btClearTextBox7_Click(object sender, EventArgs e) => textBoxTableColumn7.Text = "";
         private void btClearTextBoxDeleteID_Click(object sender, EventArgs e) => textBoxDeleteID.Text = "";
         /*/\Кнопки для очистки полей/\*/
+        ///////////////////////////////////////
+        /*\/Выбор даты через dateTimePicker\/*/
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            textBoxTableColumn8.Text = Convert.ToString(dateTimePicker1.Value);
+        }
+        private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
+        {
+            textBoxTableColumn9.Text = Convert.ToString(dateTimePicker2.Value);
+        }
+        /*/\Выбор даты через dateTimePicker/\*/
+
 
 
 
@@ -89,9 +102,9 @@ namespace UP_FireStation
             command.Connection = sqlConnection; // Передаём строку подключения
             command.CommandType = CommandType.Text; // Тип команды (текстовая)
             command.CommandText = commandSQL; // Сама текстовая команда на языке SQL
-            
+
             NpgsqlDataReader dataReader = command.ExecuteReader(); // Исполнение команды
-            
+
             // Закрытие команды и соединения
             command.Dispose(); // Закрытие команды
             sqlConnection.Close(); // Закрытие соединения
@@ -492,7 +505,7 @@ namespace UP_FireStation
                 {
                     textBoxTableColumn1.ReadOnly = true;
                 }
-                
+
                 textBoxTableColumn2.ReadOnly = true;
                 textBoxTableColumn3.ReadOnly = true;
                 textBoxTableColumn4.ReadOnly = true;
@@ -510,7 +523,7 @@ namespace UP_FireStation
                 {
                     textBoxTableColumn1.ReadOnly = false;
                 }
-                
+
                 textBoxTableColumn2.ReadOnly = false;
                 textBoxTableColumn3.ReadOnly = false;
                 textBoxTableColumn4.ReadOnly = false;
@@ -532,47 +545,55 @@ namespace UP_FireStation
         {
             try
             {
+                textBoxRequestSQL.Text = $"INSERT INTO {selectedTable()} ({selectedColumns("ColumnNameMode")}) VALUES ({selectedColumns("ColumnValueMode")})";
                 CommandSQL($"INSERT INTO {selectedTable()} ({selectedColumns("ColumnNameMode")}) VALUES ({selectedColumns("ColumnValueMode")})");
                 UpdateBS();
             }
             catch (PostgresException)
             {
-                MessageBox.Show("Вы не заполнили ID!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                textBoxRequestSQL.Text = $"INSERT INTO {selectedTable()} ({selectedColumns("ColumnNameMode")}) VALUES ({selectedColumns("ColumnValueMode")})";
+                MessageBox.Show("Ошибка заполнения", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void btUpdateEntry_Click(object sender, EventArgs e)
         {
             try
             {
+                textBoxRequestSQL.Text = $"UPDATE {selectedTable()} SET {selectedColumns()} WHERE {selectedId()}";
                 CommandSQL($"UPDATE {selectedTable()} SET {selectedColumns()} WHERE {selectedId()}");
                 UpdateBS();
             }
             catch (PostgresException)
             {
-                MessageBox.Show("Вы не заполнили ID!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                textBoxRequestSQL.Text = $"UPDATE {selectedTable()} SET {selectedColumns()} WHERE {selectedId()}";
+                MessageBox.Show("Ошибка заполнения", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void btDeleteEntry_Click(object sender, EventArgs e)
         {
             try
             {
+                textBoxRequestSQL.Text = $"DELETE FROM {selectedTable()} WHERE {selectedId()}";
                 CommandSQL($"DELETE FROM {selectedTable()} WHERE {selectedId()}");
                 UpdateBS();
             }
             catch (PostgresException)
             {
-                MessageBox.Show("Вы не выбрали запись, которую нужно удалить", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                textBoxRequestSQL.Text = $"DELETE FROM {selectedTable()} WHERE {selectedId()}";
+                MessageBox.Show("Ошибка заполнения", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void btDeleteID_Click(object sender, EventArgs e)
         {
             try
             {
+                textBoxRequestSQL.Text = $"DELETE FROM {selectedTable()} WHERE {selectedId("OnlyID")}";
                 CommandSQL($"DELETE FROM {selectedTable()} WHERE {selectedId("OnlyID")}");
                 UpdateBS();
             }
             catch (PostgresException)
             {
+                textBoxRequestSQL.Text = $"DELETE FROM {selectedTable()} WHERE {selectedId("OnlyID")}";
                 MessageBox.Show("Вы не ввели ID", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -614,20 +635,48 @@ namespace UP_FireStation
                 }
                 else if (selectedTable() == "fireman")
                 {
-                    return "Error";
+                    string[] arrayColumnDataBase = new string[] { $"\"id_отряда\" = '{arrayColumnTextBoxes[1]}'", $"\"Имя\" = '{arrayColumnTextBoxes[2]}'", $"\"Фамилия\" = '{arrayColumnTextBoxes[3]}'", $"\"Отчество\" = '{arrayColumnTextBoxes[4]}'", $"\"Дата_рождения\" = '{arrayColumnTextBoxes[7]}'" };
+                    if (arrayColumnTextBoxes[7] == "")
+                    {
+                        int currentlength = arrayColumnDataBase.Length;
+                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
+                    }
+                    string nameColumns = string.Join(", ", arrayColumnDataBase);
+                    return nameColumns;
                 }
                 else if (selectedTable() == "firetruck")
                 {
-                    return "Error";
+                    string[] arrayColumnDataBase = new string[] { $"\"id_отряда\" = '{arrayColumnTextBoxes[1]}'", $"\"Класс\" = '{arrayColumnTextBoxes[2]}'", $"\"Марка\" = '{arrayColumnTextBoxes[3]}'", $"\"Модель\" = '{arrayColumnTextBoxes[4]}'", $"\"Пробег\" = '{arrayColumnTextBoxes[5]}'", $"\"Состояние\" = '{arrayColumnTextBoxes[6]}'", $"\"Дата_выпуска\" = '{arrayColumnTextBoxes[7]}'", $"\"Дата_списания\" = '{arrayColumnTextBoxes[8]}'" };
+                    if (arrayColumnTextBoxes[7] == "")
+                    {
+                        int currentlength = arrayColumnDataBase.Length;
+                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
+                    }
+                    if (arrayColumnTextBoxes[8] == "")
+                    {
+                        int currentlength = arrayColumnDataBase.Length;
+                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
+                    }
+                    string nameColumns = string.Join(", ", arrayColumnDataBase);
+                    return nameColumns;
                 }
                 else if (selectedTable() == "equipment")
                 {
-                    return "Error";
+                    string[] arrayColumnDataBase = new string[] { $"\"id_отряда\" = '{arrayColumnTextBoxes[1]}'", $"\"Тип\" = '{arrayColumnTextBoxes[2]}'", $"\"Состояние\" = '{arrayColumnTextBoxes[3]}'", $"\"Количество\" = '{arrayColumnTextBoxes[4]}'", $"\"Дата_списания\" = '{arrayColumnTextBoxes[7]}'" };
+                    if (arrayColumnTextBoxes[7] == "")
+                    {
+                        int currentlength = arrayColumnDataBase.Length;
+                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
+                    }
+                    string nameColumns = string.Join(", ", arrayColumnDataBase);
+                    return nameColumns;
                 }
                 return "Error";
             }
             else if (methodMode == "ColumnNameMode")
             {
+                string[] arrayColumnTextBoxes = new string[] { textBoxTableColumn1.Text, textBoxTableColumn2.Text, textBoxTableColumn3.Text, textBoxTableColumn4.Text, textBoxTableColumn5.Text, textBoxTableColumn6.Text, textBoxTableColumn7.Text, textBoxTableColumn8.Text, textBoxTableColumn9.Text };
+
                 if (selectedTable() == "firesquad")
                 {
                     string[] arrayColumnDataBase = new string[] { "\"Название\"", "\"Статус\"" };
@@ -636,15 +685,41 @@ namespace UP_FireStation
                 }
                 else if (selectedTable() == "fireman")
                 {
-                    return "Error";
+                    string[] arrayColumnDataBase = new string[] { "\"id_отряда\"", "\"Имя\"", "\"Фамилия\"", $"\"Отчество\"", "\"Дата_рождения\"" };
+                    if (arrayColumnTextBoxes[7] == "")
+                    {
+                        int currentlength = arrayColumnDataBase.Length;
+                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
+                    }
+                    string nameColumns = string.Join(", ", arrayColumnDataBase);
+                    return nameColumns;
                 }
                 else if (selectedTable() == "firetruck")
                 {
-                    return "Error";
+                    string[] arrayColumnDataBase = new string[] { "\"id_отряда\"", "\"Класс\"", "\"Марка\"", "\"Модель\"", "\"Пробег\"", "\"Состояние\"", "\"Дата_выпуска\"", "\"Дата_списания\"" };
+                    if (arrayColumnTextBoxes[7] == "")
+                    {
+                        int currentlength = arrayColumnDataBase.Length;
+                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
+                    }
+                    if (arrayColumnTextBoxes[8] == "")
+                    {
+                        int currentlength = arrayColumnDataBase.Length;
+                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
+                    }
+                    string nameColumns = string.Join(", ", arrayColumnDataBase);
+                    return nameColumns;
                 }
                 else if (selectedTable() == "equipment")
                 {
-                    return "Error";
+                    string[] arrayColumnDataBase = new string[] { "\"id_отряда\"", $"\"Тип\"", "\"Состояние\"", "\"Количество\"", "\"Дата_списания\"" };
+                    if (arrayColumnTextBoxes[7] == "")
+                    {
+                        int currentlength = arrayColumnDataBase.Length;
+                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
+                    }
+                    string nameColumns = string.Join(", ", arrayColumnDataBase);
+                    return nameColumns;
                 }
                 return "Error";
             }
@@ -660,15 +735,41 @@ namespace UP_FireStation
                 }
                 else if (selectedTable() == "fireman")
                 {
-                    return "Error";
+                    string[] arrayColumnDataBase = new string[] { $"'{arrayColumnTextBoxes[1]}'", $"'{arrayColumnTextBoxes[2]}'", $"'{arrayColumnTextBoxes[3]}'", $"'{arrayColumnTextBoxes[4]}'", $"'{arrayColumnTextBoxes[7]}'" };
+                    if (arrayColumnTextBoxes[7] == "")
+                    {
+                        int currentlength = arrayColumnDataBase.Length;
+                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
+                    }
+                    string nameColumns = string.Join(", ", arrayColumnDataBase);
+                    return nameColumns;
                 }
                 else if (selectedTable() == "firetruck")
                 {
-                    return "Error";
+                    string[] arrayColumnDataBase = new string[] { $"'{arrayColumnTextBoxes[1]}'", $"'{arrayColumnTextBoxes[2]}'", $"'{arrayColumnTextBoxes[3]}'", $"'{arrayColumnTextBoxes[4]}'", $"'{arrayColumnTextBoxes[5]}'", $"'{arrayColumnTextBoxes[6]}'", $"'{arrayColumnTextBoxes[7]}'", $"'{arrayColumnTextBoxes[8]}'" };
+                    if (arrayColumnTextBoxes[7] == "")
+                    {
+                        int currentlength = arrayColumnDataBase.Length;
+                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
+                    }
+                    if (arrayColumnTextBoxes[8] == "")
+                    {
+                        int currentlength = arrayColumnDataBase.Length;
+                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
+                    }
+                    string nameColumns = string.Join(", ", arrayColumnDataBase);
+                    return nameColumns;
                 }
                 else if (selectedTable() == "equipment")
                 {
-                    return "Error";
+                    string[] arrayColumnDataBase = new string[] { $"\"id_отряда\" = '{arrayColumnTextBoxes[1]}'", $"\"Тип\" = '{arrayColumnTextBoxes[2]}'", $"\"Состояние\" = '{arrayColumnTextBoxes[3]}'", $"\"Количество\" = '{arrayColumnTextBoxes[4]}'", $"\"Дата_списания\" = '{arrayColumnTextBoxes[7]}'" };
+                    if (arrayColumnTextBoxes[7] == "")
+                    {
+                        int currentlength = arrayColumnDataBase.Length;
+                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
+                    }
+                    string nameColumns = string.Join(", ", arrayColumnDataBase);
+                    return nameColumns;
                 }
                 return "Error";
             }
@@ -676,7 +777,7 @@ namespace UP_FireStation
             {
                 return "Error";
             }
-            
+
         }
         private string selectedId(string mode = "default")
         {
