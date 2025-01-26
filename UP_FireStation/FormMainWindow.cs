@@ -34,6 +34,7 @@ namespace UP_FireStation
         private BindingSource BS_firetruck;
         private BindingSource BS_equipment;
         private BindingSource BS_SEARCH;
+        private string changedTable;
 
 
 
@@ -128,6 +129,8 @@ namespace UP_FireStation
             BS_firetruck = sqlConnectionReader("firetruck");
             BS_equipment = sqlConnectionReader("equipment");
 
+            changedTable = comboBoxChangeTable.SelectedItem?.ToString();
+
             if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные")
             {
                 dataGridView1.DataSource = BS_fireman;
@@ -146,7 +149,12 @@ namespace UP_FireStation
             }
 
             dataGridView1.ClearSelection();
-            ClearLable();
+
+            if (comboBoxChangeTable.SelectedItem?.ToString() != changedTable)
+            {
+                ClearLable();
+            }
+
             ClearTextBox();
         }
         private void btUpdate_Click(object sender, EventArgs e)
