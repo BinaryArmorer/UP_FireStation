@@ -33,6 +33,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btUpdate = new System.Windows.Forms.Button();
             this.panelSearch = new System.Windows.Forms.Panel();
+            this.btClearTextBox9 = new System.Windows.Forms.Button();
+            this.btClearTextBox8 = new System.Windows.Forms.Button();
             this.panelDeleteID = new System.Windows.Forms.Panel();
             this.btClearTextBoxDeleteID = new System.Windows.Forms.Button();
             this.btDeleteID = new System.Windows.Forms.Button();
@@ -77,8 +79,6 @@
             this.panelAdaptiveTables = new System.Windows.Forms.Panel();
             this.panelRequestSQL = new System.Windows.Forms.Panel();
             this.textBoxRequestSQL = new System.Windows.Forms.TextBox();
-            this.btClearTextBox8 = new System.Windows.Forms.Button();
-            this.btClearTextBox9 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panelSearch.SuspendLayout();
             this.panelDeleteID.SuspendLayout();
@@ -180,6 +180,28 @@
             this.panelSearch.Name = "panelSearch";
             this.panelSearch.Size = new System.Drawing.Size(356, 518);
             this.panelSearch.TabIndex = 13;
+            // 
+            // btClearTextBox9
+            // 
+            this.btClearTextBox9.Enabled = false;
+            this.btClearTextBox9.Location = new System.Drawing.Point(330, 214);
+            this.btClearTextBox9.Name = "btClearTextBox9";
+            this.btClearTextBox9.Size = new System.Drawing.Size(20, 20);
+            this.btClearTextBox9.TabIndex = 46;
+            this.btClearTextBox9.Text = "X";
+            this.btClearTextBox9.UseVisualStyleBackColor = true;
+            this.btClearTextBox9.Click += new System.EventHandler(this.btClearTextBox9_Click);
+            // 
+            // btClearTextBox8
+            // 
+            this.btClearTextBox8.Enabled = false;
+            this.btClearTextBox8.Location = new System.Drawing.Point(330, 188);
+            this.btClearTextBox8.Name = "btClearTextBox8";
+            this.btClearTextBox8.Size = new System.Drawing.Size(20, 20);
+            this.btClearTextBox8.TabIndex = 45;
+            this.btClearTextBox8.Text = "X";
+            this.btClearTextBox8.UseVisualStyleBackColor = true;
+            this.btClearTextBox8.Click += new System.EventHandler(this.btClearTextBox8_Click);
             // 
             // panelDeleteID
             // 
@@ -643,28 +665,6 @@
             this.textBoxRequestSQL.TabIndex = 0;
             this.textBoxRequestSQL.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // btClearTextBox8
-            // 
-            this.btClearTextBox8.Enabled = false;
-            this.btClearTextBox8.Location = new System.Drawing.Point(330, 188);
-            this.btClearTextBox8.Name = "btClearTextBox8";
-            this.btClearTextBox8.Size = new System.Drawing.Size(20, 20);
-            this.btClearTextBox8.TabIndex = 45;
-            this.btClearTextBox8.Text = "X";
-            this.btClearTextBox8.UseVisualStyleBackColor = true;
-            this.btClearTextBox8.Click += new System.EventHandler(this.btClearTextBox8_Click);
-            // 
-            // btClearTextBox9
-            // 
-            this.btClearTextBox9.Enabled = false;
-            this.btClearTextBox9.Location = new System.Drawing.Point(330, 214);
-            this.btClearTextBox9.Name = "btClearTextBox9";
-            this.btClearTextBox9.Size = new System.Drawing.Size(20, 20);
-            this.btClearTextBox9.TabIndex = 46;
-            this.btClearTextBox9.Text = "X";
-            this.btClearTextBox9.UseVisualStyleBackColor = true;
-            this.btClearTextBox9.Click += new System.EventHandler(this.btClearTextBox9_Click);
-            // 
             // FormMainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -674,9 +674,10 @@
             this.Controls.Add(this.panelRequestSQL);
             this.Controls.Add(this.panelAdaptiveTables);
             this.Controls.Add(this.panelSearch);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "FormMainWindow";
-            this.Text = "FormMainWindow";
+            this.Text = "FireStation: Data Management System";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panelSearch.ResumeLayout(false);
             this.panelSearch.PerformLayout();
