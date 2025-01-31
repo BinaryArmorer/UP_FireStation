@@ -19,6 +19,7 @@ namespace UP_FireStation
     public partial class FormMainWindow : Form
     {
         /*Названия таблиц в базе: firetruck fireman equipment firesquad*/
+        /*Чтобы видеть какие методы для чего нужны, нужно свернуть все методы в Visual Studio*/
         public FormMainWindow()
         {
             InitializeComponent();
@@ -35,34 +36,6 @@ namespace UP_FireStation
         private BindingSource BS_equipment;
         private BindingSource BS_SEARCH;
         private string changedTable;
-
-
-
-        /*\/Кнопки для очистки полей\/*/
-        private void btClearTextBox1_Click(object sender, EventArgs e) => textBoxTableColumn1.Text = "";
-        private void btClearTextBox2_Click(object sender, EventArgs e) => textBoxTableColumn2.Text = "";
-        private void btClearTextBox3_Click(object sender, EventArgs e) => textBoxTableColumn3.Text = "";
-        private void btClearTextBox4_Click(object sender, EventArgs e) => textBoxTableColumn4.Text = "";
-        private void btClearTextBox5_Click(object sender, EventArgs e) => textBoxTableColumn5.Text = "";
-        private void btClearTextBox6_Click(object sender, EventArgs e) => textBoxTableColumn6.Text = "";
-        private void btClearTextBox7_Click(object sender, EventArgs e) => textBoxTableColumn7.Text = "";
-        private void btClearTextBox8_Click(object sender, EventArgs e) => textBoxTableColumn8.Text = "";
-        private void btClearTextBox9_Click(object sender, EventArgs e) => textBoxTableColumn9.Text = "";
-        private void btClearTextBoxDeleteID_Click(object sender, EventArgs e) => textBoxDeleteID.Text = "";
-        /*/\Кнопки для очистки полей/\*/
-        ///////////////////////////////////////
-        /*\/Выбор даты через dateTimePicker\/*/
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
-        {
-            textBoxTableColumn8.Text = Convert.ToString(dateTimePicker1.Value);
-        }
-        private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
-        {
-            textBoxTableColumn9.Text = Convert.ToString(dateTimePicker2.Value);
-        }
-        /*/\Выбор даты через dateTimePicker/\*/
-
-
 
 
         /*\/Соединение с базой и подача команд\/*/
@@ -122,30 +95,49 @@ namespace UP_FireStation
             command.Dispose(); // Закрытие команды
             sqlConnection.Close(); // Закрытие соединения
         }
-        private void UpdateBS()
+        private void UpdateBS(string mode = "")
         {
             BS_fireman = sqlConnectionReader("fireman");
             BS_firesquad = sqlConnectionReader("firesquad");
             BS_firetruck = sqlConnectionReader("firetruck");
             BS_equipment = sqlConnectionReader("equipment");
 
-            changedTable = comboBoxChangeTable.SelectedItem?.ToString();
 
             if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные")
             {
                 dataGridView1.DataSource = BS_fireman;
+
+                if (mode != "noRequest")
+                {
+                    textBoxRequestSQL.Text = $"SELECT * FROM fireman";
+                }
             }
             else if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные отряды")
             {
                 dataGridView1.DataSource = BS_firesquad;
+
+                if (mode != "noRequest")
+                {
+                    textBoxRequestSQL.Text = $"SELECT * FROM firesquad";
+                }
             }
             else if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные машины")
             {
                 dataGridView1.DataSource = BS_firetruck;
+
+                if (mode != "noRequest")
+                {
+                    textBoxRequestSQL.Text = $"SELECT * FROM firetruck";
+                }
             }
             else if (comboBoxChangeTable.SelectedItem?.ToString() == "Оборудование")
             {
                 dataGridView1.DataSource = BS_equipment;
+
+                if (mode != "noRequest")
+                {
+                    textBoxRequestSQL.Text = $"SELECT * FROM equipment";
+                }
             }
 
             dataGridView1.ClearSelection();
@@ -155,6 +147,8 @@ namespace UP_FireStation
                 ClearLable();
             }
 
+            changedTable = comboBoxChangeTable.SelectedItem?.ToString();
+
             ClearTextBox();
         }
         private void btUpdate_Click(object sender, EventArgs e)
@@ -162,7 +156,6 @@ namespace UP_FireStation
             UpdateBS();
         }
         /*/\Соединение с базой и подача команд/\*/
-
 
 
         /*\/Переключение таблиц\/*/
@@ -216,7 +209,6 @@ namespace UP_FireStation
             lable.Text = lable_value;
         }
         /*/\Переключение таблиц/\*/
-
 
 
         /*\/Режим управления данными\/*/
@@ -342,6 +334,463 @@ namespace UP_FireStation
         /*/\Режим управления данными/\*/
 
 
+        /*\/Функции ПОИСКА, ОБНОВЛЕНИЯ, ДОБАВЛЕНИЯ, УДАЛЕНИЯ данных\/*/
+        private void btSearchEntry_Click(object sender, EventArgs e)
+        {
+            string mode = "OrMode";
+
+            try
+            {
+                void Check(string modeC = "none")
+                {
+                    if (modeC == "inversion")
+                    {
+                        if (textBoxTableColumn1.Text == "0")
+                        {
+                            textBoxTableColumn1.Text = "";
+                        }
+                        if (textBoxTableColumn2.Text == "0")
+                        {
+                            textBoxTableColumn2.Text = "";
+                        }
+                        if (textBoxTableColumn3.Text == "0")
+                        {
+                            textBoxTableColumn3.Text = "";
+                        }
+                        if (textBoxTableColumn4.Text == "0")
+                        {
+                            textBoxTableColumn4.Text = "";
+                        }
+                        if (textBoxTableColumn5.Text == "0")
+                        {
+                            textBoxTableColumn5.Text = "";
+                        }
+                        if (textBoxTableColumn6.Text == "0")
+                        {
+                            textBoxTableColumn6.Text = "";
+                        }
+                        if (textBoxTableColumn7.Text == "0")
+                        {
+                            textBoxTableColumn7.Text = "";
+                        }
+                        if (textBoxTableColumn8.Text == "01.01.1000")
+                        {
+                            textBoxTableColumn8.Text = "";
+                        }
+                        if (textBoxTableColumn9.Text == "01.01.1000")
+                        {
+                            textBoxTableColumn9.Text = "";
+                        }
+                    }
+                    else
+                    {
+                        if (textBoxTableColumn1.Text == "")
+                        {
+                            textBoxTableColumn1.Text = "0";
+                        }
+                        if (textBoxTableColumn2.Text == "")
+                        {
+                            textBoxTableColumn2.Text = "0";
+                        }
+                        if (textBoxTableColumn3.Text == "")
+                        {
+                            textBoxTableColumn3.Text = "0";
+                        }
+                        if (textBoxTableColumn4.Text == "")
+                        {
+                            textBoxTableColumn4.Text = "0";
+                        }
+                        if (textBoxTableColumn5.Text == "")
+                        {
+                            textBoxTableColumn5.Text = "0";
+                        }
+                        if (textBoxTableColumn6.Text == "")
+                        {
+                            textBoxTableColumn6.Text = "0";
+                        }
+                        if (textBoxTableColumn7.Text == "")
+                        {
+                            textBoxTableColumn7.Text = "0";
+                        }
+                        if (textBoxTableColumn8.Text == "")
+                        {
+                            textBoxTableColumn8.Text = "01.01.1000";
+                        }
+                        if (textBoxTableColumn9.Text == "")
+                        {
+                            textBoxTableColumn9.Text = "01.01.1000";
+                        }
+                    }
+                }
+                Check();
+                textBoxRequestSQL.Text = $"SELECT * FROM {selectedTable()} WHERE {selectedColumns(mode)}";
+                BS_SEARCH = sqlConnectionReader(selectedTable(), "custom", $"SELECT * FROM {selectedTable()} WHERE {selectedColumns(mode)}");
+                dataGridView1.DataSource = BS_SEARCH;
+                Check("inversion");
+
+            }
+            catch (PostgresException)
+            {
+                textBoxRequestSQL.Text = $"SELECT * FROM {selectedTable()} WHERE {selectedColumns(mode)}";
+                MessageBox.Show("Ошибка", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void btSearchEntryID_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                textBoxRequestSQL.Text = $"SELECT * FROM {selectedTable()} WHERE {selectedId()}";
+                BS_SEARCH = sqlConnectionReader(selectedTable(), "custom", $"SELECT * FROM {selectedTable()} WHERE {selectedId()}");
+                dataGridView1.DataSource = BS_SEARCH;
+            }
+            catch (PostgresException)
+            {
+                textBoxRequestSQL.Text = $"SELECT * FROM {selectedTable()} WHERE {selectedId()}";
+                MessageBox.Show("Ошибка", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void btAddEntry_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                textBoxRequestSQL.Text = $"INSERT INTO {selectedTable()} ({selectedColumns("ColumnNameMode")}) VALUES ({selectedColumns("ColumnValueMode")})";
+                CommandSQL($"INSERT INTO {selectedTable()} ({selectedColumns("ColumnNameMode")}) VALUES ({selectedColumns("ColumnValueMode")})");
+                UpdateBS("noRequest");
+            }
+            catch (PostgresException)
+            {
+                textBoxRequestSQL.Text = $"INSERT INTO {selectedTable()} ({selectedColumns("ColumnNameMode")}) VALUES ({selectedColumns("ColumnValueMode")})";
+                MessageBox.Show("Ошибка заполнения", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void btUpdateEntry_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                textBoxRequestSQL.Text = $"UPDATE {selectedTable()} SET {selectedColumns()} WHERE {selectedId()}";
+                CommandSQL($"UPDATE {selectedTable()} SET {selectedColumns()} WHERE {selectedId()}");
+                UpdateBS("noRequest");
+            }
+            catch (PostgresException)
+            {
+                textBoxRequestSQL.Text = $"UPDATE {selectedTable()} SET {selectedColumns()} WHERE {selectedId()}";
+                MessageBox.Show("Ошибка заполнения", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void btDeleteEntry_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                textBoxRequestSQL.Text = $"DELETE FROM {selectedTable()} WHERE {selectedId()}";
+                CommandSQL($"DELETE FROM {selectedTable()} WHERE {selectedId()}");
+                UpdateBS("noRequest");
+            }
+            catch (PostgresException)
+            {
+                textBoxRequestSQL.Text = $"DELETE FROM {selectedTable()} WHERE {selectedId()}";
+                MessageBox.Show("Ошибка заполнения", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void btDeleteID_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                textBoxRequestSQL.Text = $"DELETE FROM {selectedTable()} WHERE {selectedId("OnlyID")}";
+                CommandSQL($"DELETE FROM {selectedTable()} WHERE {selectedId("OnlyID")}");
+                UpdateBS("noRequest");
+            }
+            catch (PostgresException)
+            {
+                textBoxRequestSQL.Text = $"DELETE FROM {selectedTable()} WHERE {selectedId("OnlyID")}";
+                MessageBox.Show("Вы не ввели ID", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        //Вспомогательные методы\/
+        private string selectedTable()
+        {
+            if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные отряды")
+            {
+                return "firesquad";
+            }
+            else if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные машины")
+            {
+                return "firetruck";
+            }
+            else if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные")
+            {
+                return "fireman";
+            }
+            else if (comboBoxChangeTable.SelectedItem?.ToString() == "Оборудование")
+            {
+                return "equipment";
+            }
+            else
+            {
+                return "Error";
+            }
+        }
+        private string selectedColumns(string methodMode = "none")
+        {
+            string separator;
+
+            if (methodMode == "AndMode")
+            {
+                separator = " AND ";
+                methodMode = "none";
+            }
+            else if (methodMode == "OrMode")
+            {
+                separator = " OR ";
+                methodMode = "none";
+            }
+            else
+            {
+                separator = ", ";
+            }
+
+            if (methodMode == "none")
+            {
+                string[] arrayColumnTextBoxes = new string[] { textBoxTableColumn1.Text, textBoxTableColumn2.Text, textBoxTableColumn3.Text, textBoxTableColumn4.Text, textBoxTableColumn5.Text, textBoxTableColumn6.Text, textBoxTableColumn7.Text, textBoxTableColumn8.Text, textBoxTableColumn9.Text };
+
+                if (selectedTable() == "firesquad")
+                {
+                    string[] arrayColumnDataBase = new string[] { $"\"Название\" = '{arrayColumnTextBoxes[1]}'", $"\"Статус\" = '{arrayColumnTextBoxes[2]}'" };
+                    string nameColumns = string.Join(separator, arrayColumnDataBase);
+                    return nameColumns;
+                }
+                else if (selectedTable() == "fireman")
+                {
+                    string[] arrayColumnDataBase = new string[] { $"\"id_отряда\" = '{arrayColumnTextBoxes[1]}'", $"\"Имя\" = '{arrayColumnTextBoxes[2]}'", $"\"Фамилия\" = '{arrayColumnTextBoxes[3]}'", $"\"Отчество\" = '{arrayColumnTextBoxes[4]}'", $"\"Дата_рождения\" = '{arrayColumnTextBoxes[7]}'" };
+
+                    if (comboBoxChangeMode.SelectedItem?.ToString() == "Поиск")
+                    {
+
+                    }
+                    else if (arrayColumnTextBoxes[7] == "")
+                    {
+                        int currentlength = arrayColumnDataBase.Length;
+                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
+                    }
+                    string nameColumns = string.Join(separator, arrayColumnDataBase);
+                    return nameColumns;
+                }
+                else if (selectedTable() == "firetruck")
+                {
+                    string[] arrayColumnDataBase = new string[] { $"\"id_отряда\" = '{arrayColumnTextBoxes[1]}'", $"\"Класс\" = '{arrayColumnTextBoxes[2]}'", $"\"Марка\" = '{arrayColumnTextBoxes[3]}'", $"\"Модель\" = '{arrayColumnTextBoxes[4]}'", $"\"Пробег\" = '{arrayColumnTextBoxes[5]}'", $"\"Состояние\" = '{arrayColumnTextBoxes[6]}'", $"\"Дата_выпуска\" = '{arrayColumnTextBoxes[7]}'", $"\"Дата_списания\" = '{arrayColumnTextBoxes[8]}'" };
+
+                    if (comboBoxChangeMode.SelectedItem?.ToString() == "Поиск")
+                    {
+
+                    }
+                    else if (arrayColumnTextBoxes[7] == "")
+                    {
+                        int currentlength = arrayColumnDataBase.Length;
+                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
+                    }
+                    if (comboBoxChangeMode.SelectedItem?.ToString() == "Поиск")
+                    {
+
+                    }
+                    else if (arrayColumnTextBoxes[8] == "")
+                    {
+                        int currentlength = arrayColumnDataBase.Length;
+                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
+                    }
+                    string nameColumns = string.Join(separator, arrayColumnDataBase);
+                    return nameColumns;
+                }
+                else if (selectedTable() == "equipment")
+                {
+                    string[] arrayColumnDataBase = new string[] { $"\"id_отряда\" = '{arrayColumnTextBoxes[1]}'", $"\"Тип\" = '{arrayColumnTextBoxes[2]}'", $"\"Состояние\" = '{arrayColumnTextBoxes[3]}'", $"\"Количество\" = '{arrayColumnTextBoxes[4]}'", $"\"Дата_списания\" = '{arrayColumnTextBoxes[7]}'" };
+                    if (comboBoxChangeMode.SelectedItem?.ToString() == "Поиск")
+                    {
+
+                    }
+                    else if (arrayColumnTextBoxes[7] == "")
+                    {
+                        int currentlength = arrayColumnDataBase.Length;
+                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
+                    }
+                    string nameColumns = string.Join(separator, arrayColumnDataBase);
+                    return nameColumns;
+                }
+                return "Error";
+            }
+            else if (methodMode == "ColumnNameMode")
+            {
+                string[] arrayColumnTextBoxes = new string[] { textBoxTableColumn1.Text, textBoxTableColumn2.Text, textBoxTableColumn3.Text, textBoxTableColumn4.Text, textBoxTableColumn5.Text, textBoxTableColumn6.Text, textBoxTableColumn7.Text, textBoxTableColumn8.Text, textBoxTableColumn9.Text };
+
+                if (selectedTable() == "firesquad")
+                {
+                    string[] arrayColumnDataBase = new string[] { "\"Название\"", "\"Статус\"" };
+                    string nameColumns = string.Join(", ", arrayColumnDataBase);
+                    return nameColumns;
+                }
+                else if (selectedTable() == "fireman")
+                {
+                    string[] arrayColumnDataBase = new string[] { "\"id_отряда\"", "\"Имя\"", "\"Фамилия\"", $"\"Отчество\"", "\"Дата_рождения\"" };
+                    if (comboBoxChangeMode.SelectedItem?.ToString() == "Поиск")
+                    {
+
+                    }
+                    else if (arrayColumnTextBoxes[7] == "")
+                    {
+                        int currentlength = arrayColumnDataBase.Length;
+                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
+                    }
+                    string nameColumns = string.Join(", ", arrayColumnDataBase);
+                    return nameColumns;
+                }
+                else if (selectedTable() == "firetruck")
+                {
+                    string[] arrayColumnDataBase = new string[] { "\"id_отряда\"", "\"Класс\"", "\"Марка\"", "\"Модель\"", "\"Пробег\"", "\"Состояние\"", "\"Дата_выпуска\"", "\"Дата_списания\"" };
+
+                    if (comboBoxChangeMode.SelectedItem?.ToString() == "Поиск")
+                    {
+
+                    }
+                    else if (arrayColumnTextBoxes[7] == "")
+                    {
+                        int currentlength = arrayColumnDataBase.Length;
+                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
+                    }
+                    if (comboBoxChangeMode.SelectedItem?.ToString() == "Поиск")
+                    {
+
+                    }
+                    else if (arrayColumnTextBoxes[8] == "")
+                    {
+                        int currentlength = arrayColumnDataBase.Length;
+                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
+                    }
+                    string nameColumns = string.Join(", ", arrayColumnDataBase);
+                    return nameColumns;
+                }
+                else if (selectedTable() == "equipment")
+                {
+                    string[] arrayColumnDataBase = new string[] { "\"id_отряда\"", $"\"Тип\"", "\"Состояние\"", "\"Количество\"", "\"Дата_списания\"" };
+
+                    if (comboBoxChangeMode.SelectedItem?.ToString() == "Поиск")
+                    {
+
+                    }
+                    else if (arrayColumnTextBoxes[7] == "")
+                    {
+                        int currentlength = arrayColumnDataBase.Length;
+                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
+                    }
+                    string nameColumns = string.Join(", ", arrayColumnDataBase);
+                    return nameColumns;
+                }
+                return "Error";
+            }
+            else if (methodMode == "ColumnValueMode")
+            {
+                string[] arrayColumnTextBoxes = new string[] { textBoxTableColumn1.Text, textBoxTableColumn2.Text, textBoxTableColumn3.Text, textBoxTableColumn4.Text, textBoxTableColumn5.Text, textBoxTableColumn6.Text, textBoxTableColumn7.Text, textBoxTableColumn8.Text, textBoxTableColumn9.Text };
+
+                if (selectedTable() == "firesquad")
+                {
+                    string[] arrayColumnDataBase = new string[] { $"'{arrayColumnTextBoxes[1]}'", $"'{arrayColumnTextBoxes[2]}'" };
+                    string nameColumns = string.Join(", ", arrayColumnDataBase);
+                    return nameColumns;
+                }
+                else if (selectedTable() == "fireman")
+                {
+                    string[] arrayColumnDataBase = new string[] { $"'{arrayColumnTextBoxes[1]}'", $"'{arrayColumnTextBoxes[2]}'", $"'{arrayColumnTextBoxes[3]}'", $"'{arrayColumnTextBoxes[4]}'", $"'{arrayColumnTextBoxes[7]}'" };
+
+                    if (comboBoxChangeMode.SelectedItem?.ToString() == "Поиск")
+                    {
+
+                    }
+                    else if (arrayColumnTextBoxes[7] == "")
+                    {
+                        int currentlength = arrayColumnDataBase.Length;
+                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
+                    }
+                    string nameColumns = string.Join(", ", arrayColumnDataBase);
+                    return nameColumns;
+                }
+                else if (selectedTable() == "firetruck")
+                {
+                    string[] arrayColumnDataBase = new string[] { $"'{arrayColumnTextBoxes[1]}'", $"'{arrayColumnTextBoxes[2]}'", $"'{arrayColumnTextBoxes[3]}'", $"'{arrayColumnTextBoxes[4]}'", $"'{arrayColumnTextBoxes[5]}'", $"'{arrayColumnTextBoxes[6]}'", $"'{arrayColumnTextBoxes[7]}'", $"'{arrayColumnTextBoxes[8]}'" };
+
+                    if (comboBoxChangeMode.SelectedItem?.ToString() == "Поиск")
+                    {
+
+                    }
+                    else if (arrayColumnTextBoxes[7] == "")
+                    {
+                        int currentlength = arrayColumnDataBase.Length;
+                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
+                    }
+                    if (comboBoxChangeMode.SelectedItem?.ToString() == "Поиск")
+                    {
+
+                    }
+                    else if (arrayColumnTextBoxes[8] == "")
+                    {
+                        int currentlength = arrayColumnDataBase.Length;
+                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
+                    }
+                    string nameColumns = string.Join(", ", arrayColumnDataBase);
+                    return nameColumns;
+                }
+                else if (selectedTable() == "equipment")
+                {
+                    string[] arrayColumnDataBase = new string[] { $"'{arrayColumnTextBoxes[1]}'", $"'{arrayColumnTextBoxes[2]}'", $"'{arrayColumnTextBoxes[3]}'", $"'{arrayColumnTextBoxes[4]}'", $"'{arrayColumnTextBoxes[7]}'" };
+                    if (comboBoxChangeMode.SelectedItem?.ToString() == "Поиск")
+                    {
+
+                    }
+                    else if (arrayColumnTextBoxes[7] == "")
+                    {
+                        int currentlength = arrayColumnDataBase.Length;
+                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
+                    }
+                    string nameColumns = string.Join(", ", arrayColumnDataBase);
+                    return nameColumns;
+                }
+                return "Error";
+            }
+            else
+            {
+                return "Error";
+            }
+
+        }
+        private string selectedId(string mode = "default")
+        {
+            string textBoxMode;
+
+            if (mode == "OnlyID")
+            {
+                textBoxMode = textBoxDeleteID.Text;
+            }
+            else
+            {
+                textBoxMode = textBoxTableColumn1.Text;
+            }
+
+            if (selectedTable() == "firesquad")
+            {
+                return $"id_firesquad = {textBoxMode}";
+            }
+            else if (selectedTable() == "fireman")
+            {
+                return $"id_fireman = {textBoxMode}";
+            }
+            else if (selectedTable() == "firetruck")
+            {
+                return $"id_firetruck = {textBoxMode}";
+            }
+            else if (selectedTable() == "equipment")
+            {
+                return $"id_equipment = {textBoxMode}";
+            }
+            return "Error";
+        }
+        /*/\Функции ПОИСКА, ОБНОВЛЕНИЯ, ДОБАВЛЕНИЯ, УДАЛЕНИЯ данных/\*/
+
 
         /*\/Выбор записи из dataGridView\/*/
         private void dataGridView1_RowEnter(object sender, DataGridViewCellEventArgs e)
@@ -447,6 +896,30 @@ namespace UP_FireStation
         /*/\Выбор записи из dataGridView/\*/
 
 
+        /*\/Кнопки для очистки полей\/*/
+        private void btClearTextBox1_Click(object sender, EventArgs e) => textBoxTableColumn1.Text = "";
+        private void btClearTextBox2_Click(object sender, EventArgs e) => textBoxTableColumn2.Text = "";
+        private void btClearTextBox3_Click(object sender, EventArgs e) => textBoxTableColumn3.Text = "";
+        private void btClearTextBox4_Click(object sender, EventArgs e) => textBoxTableColumn4.Text = "";
+        private void btClearTextBox5_Click(object sender, EventArgs e) => textBoxTableColumn5.Text = "";
+        private void btClearTextBox6_Click(object sender, EventArgs e) => textBoxTableColumn6.Text = "";
+        private void btClearTextBox7_Click(object sender, EventArgs e) => textBoxTableColumn7.Text = "";
+        private void btClearTextBox8_Click(object sender, EventArgs e) => textBoxTableColumn8.Text = "";
+        private void btClearTextBox9_Click(object sender, EventArgs e) => textBoxTableColumn9.Text = "";
+        private void btClearTextBoxDeleteID_Click(object sender, EventArgs e) => textBoxDeleteID.Text = "";
+        /*/\Кнопки для очистки полей/\*/
+        ///////////////////////////////////////
+        /*\/Выбор даты через dateTimePicker\/*/
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            textBoxTableColumn8.Text = Convert.ToString(dateTimePicker1.Value);
+        }
+        private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
+        {
+            textBoxTableColumn9.Text = Convert.ToString(dateTimePicker2.Value);
+        }
+        /*/\Выбор даты через dateTimePicker/\*/
+
 
         /*\/ОЧИСТКА LABLE и TEXTBOX\/*/
         private void ClearTextBox()
@@ -486,7 +959,6 @@ namespace UP_FireStation
             textBoxTableColumn9.Text = "";
         }
         /*/\ОЧИСТКА LABLE и TEXTBOX/\*/
-
 
 
         /*\/Изменения свойств элементов в форме\/*/
@@ -572,464 +1044,5 @@ namespace UP_FireStation
             }
         }
         /*/\Изменения свойств элементов в форме/\*/
-
-
-
-        /*\/Функции ПОИСКА, ОБНОВЛЕНИЯ, ДОБАВЛЕНИЯ, УДАЛЕНИЯ данных\/*/
-        private void btSearchEntry_Click(object sender, EventArgs e)
-        {
-            string mode = "OrMode";
-
-            try
-            {
-                void Check(string modeC = "none")
-                {
-                    if (modeC == "inversion")
-                    {
-                        if (textBoxTableColumn1.Text == "0")
-                        {
-                            textBoxTableColumn1.Text = "";
-                        }
-                        if (textBoxTableColumn2.Text == "0")
-                        {
-                            textBoxTableColumn2.Text = "";
-                        }
-                        if (textBoxTableColumn3.Text == "0")
-                        {
-                            textBoxTableColumn3.Text = "";
-                        }
-                        if (textBoxTableColumn4.Text == "0")
-                        {
-                            textBoxTableColumn4.Text = "";
-                        }
-                        if (textBoxTableColumn5.Text == "0")
-                        {
-                            textBoxTableColumn5.Text = "";
-                        }
-                        if (textBoxTableColumn6.Text == "0")
-                        {
-                            textBoxTableColumn6.Text = "";
-                        }
-                        if (textBoxTableColumn7.Text == "0")
-                        {
-                            textBoxTableColumn7.Text = "";
-                        }
-                        if (textBoxTableColumn8.Text == "01.01.1000")
-                        {
-                            textBoxTableColumn8.Text = "";
-                        }
-                        if (textBoxTableColumn9.Text == "01.01.1000")
-                        {
-                            textBoxTableColumn9.Text = "";
-                        }
-                    }
-                    else
-                    {
-                        if (textBoxTableColumn1.Text == "")
-                        {
-                            textBoxTableColumn1.Text = "0";
-                        }
-                        if (textBoxTableColumn2.Text == "")
-                        {
-                            textBoxTableColumn2.Text = "0";
-                        }
-                        if (textBoxTableColumn3.Text == "")
-                        {
-                            textBoxTableColumn3.Text = "0";
-                        }
-                        if (textBoxTableColumn4.Text == "")
-                        {
-                            textBoxTableColumn4.Text = "0";
-                        }
-                        if (textBoxTableColumn5.Text == "")
-                        {
-                            textBoxTableColumn5.Text = "0";
-                        }
-                        if (textBoxTableColumn6.Text == "")
-                        {
-                            textBoxTableColumn6.Text = "0";
-                        }
-                        if (textBoxTableColumn7.Text == "")
-                        {
-                            textBoxTableColumn7.Text = "0";
-                        }
-                        if (textBoxTableColumn8.Text == "")
-                        {
-                            textBoxTableColumn8.Text = "01.01.1000";
-                        }
-                        if (textBoxTableColumn9.Text == "")
-                        {
-                            textBoxTableColumn9.Text = "01.01.1000";
-                        }
-                    }
-                }
-                Check();
-                //textBoxRequestSQL.Text = $"SELECT * FROM {selectedTable()} WHERE {selectedColumns(mode)}";
-                BS_SEARCH = sqlConnectionReader(selectedTable(), "custom", $"SELECT * FROM {selectedTable()} WHERE {selectedColumns(mode)}");
-                dataGridView1.DataSource = BS_SEARCH;
-                Check("inversion");
-
-            }
-            catch (PostgresException)
-            {
-                textBoxRequestSQL.Text = $"SELECT * FROM {selectedTable()} WHERE {selectedColumns(mode)}";
-                MessageBox.Show("Ошибка", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        private void btSearchEntryID_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                //textBoxRequestSQL.Text = $"SELECT * FROM {selectedTable()} WHERE {selectedId()}";
-                BS_SEARCH = sqlConnectionReader(selectedTable(), "custom", $"SELECT * FROM {selectedTable()} WHERE {selectedId()}");
-                dataGridView1.DataSource = BS_SEARCH;
-            }
-            catch (PostgresException)
-            {
-                textBoxRequestSQL.Text = $"SELECT * FROM {selectedTable()} WHERE {selectedId()}";
-                MessageBox.Show("Ошибка", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        private void btAddEntry_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                textBoxRequestSQL.Text = $"INSERT INTO {selectedTable()} ({selectedColumns("ColumnNameMode")}) VALUES ({selectedColumns("ColumnValueMode")})";
-                CommandSQL($"INSERT INTO {selectedTable()} ({selectedColumns("ColumnNameMode")}) VALUES ({selectedColumns("ColumnValueMode")})");
-                UpdateBS();
-            }
-            catch (PostgresException)
-            {
-                textBoxRequestSQL.Text = $"INSERT INTO {selectedTable()} ({selectedColumns("ColumnNameMode")}) VALUES ({selectedColumns("ColumnValueMode")})";
-                MessageBox.Show("Ошибка заполнения", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        private void btUpdateEntry_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                textBoxRequestSQL.Text = $"UPDATE {selectedTable()} SET {selectedColumns()} WHERE {selectedId()}";
-                CommandSQL($"UPDATE {selectedTable()} SET {selectedColumns()} WHERE {selectedId()}");
-                UpdateBS();
-            }
-            catch (PostgresException)
-            {
-                textBoxRequestSQL.Text = $"UPDATE {selectedTable()} SET {selectedColumns()} WHERE {selectedId()}";
-                MessageBox.Show("Ошибка заполнения", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        private void btDeleteEntry_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                textBoxRequestSQL.Text = $"DELETE FROM {selectedTable()} WHERE {selectedId()}";
-                CommandSQL($"DELETE FROM {selectedTable()} WHERE {selectedId()}");
-                UpdateBS();
-            }
-            catch (PostgresException)
-            {
-                textBoxRequestSQL.Text = $"DELETE FROM {selectedTable()} WHERE {selectedId()}";
-                MessageBox.Show("Ошибка заполнения", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        private void btDeleteID_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                textBoxRequestSQL.Text = $"DELETE FROM {selectedTable()} WHERE {selectedId("OnlyID")}";
-                CommandSQL($"DELETE FROM {selectedTable()} WHERE {selectedId("OnlyID")}");
-                UpdateBS();
-            }
-            catch (PostgresException)
-            {
-                textBoxRequestSQL.Text = $"DELETE FROM {selectedTable()} WHERE {selectedId("OnlyID")}";
-                MessageBox.Show("Вы не ввели ID", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        //Вспомогательные методы\/
-        private string selectedTable()
-        {
-            if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные отряды")
-            {
-                return "firesquad";
-            }
-            else if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные машины")
-            {
-                return "firetruck";
-            }
-            else if (comboBoxChangeTable.SelectedItem?.ToString() == "Пожарные")
-            {
-                return "fireman";
-            }
-            else if (comboBoxChangeTable.SelectedItem?.ToString() == "Оборудование")
-            {
-                return "equipment";
-            }
-            else
-            {
-                return "Error";
-            }
-        }
-        private string selectedColumns(string methodMode = "none")
-        {
-            string separator;
-
-            if (methodMode == "AndMode")
-            {
-                separator = " AND ";
-                methodMode = "none";
-            }
-            else if (methodMode == "OrMode")
-            {
-                separator = " OR ";
-                methodMode = "none";
-            }
-            else
-            {
-                separator = ", ";
-            }
-
-            if (methodMode == "none")
-            {
-                string[] arrayColumnTextBoxes = new string[] { textBoxTableColumn1.Text, textBoxTableColumn2.Text, textBoxTableColumn3.Text, textBoxTableColumn4.Text, textBoxTableColumn5.Text, textBoxTableColumn6.Text, textBoxTableColumn7.Text, textBoxTableColumn8.Text, textBoxTableColumn9.Text };
-
-                if (selectedTable() == "firesquad")
-                {
-                    string[] arrayColumnDataBase = new string[] { $"\"Название\" = '{arrayColumnTextBoxes[1]}'", $"\"Статус\" = '{arrayColumnTextBoxes[2]}'" };
-                    string nameColumns = string.Join(separator, arrayColumnDataBase);
-                    return nameColumns;
-                }
-                else if (selectedTable() == "fireman")
-                {
-                    string[] arrayColumnDataBase = new string[] { $"\"id_отряда\" = '{arrayColumnTextBoxes[1]}'", $"\"Имя\" = '{arrayColumnTextBoxes[2]}'", $"\"Фамилия\" = '{arrayColumnTextBoxes[3]}'", $"\"Отчество\" = '{arrayColumnTextBoxes[4]}'", $"\"Дата_рождения\" = '{arrayColumnTextBoxes[7]}'" };
-                    
-                    if (comboBoxChangeMode.SelectedItem?.ToString() == "Поиск")
-                    {
-
-                    }
-                    else if (arrayColumnTextBoxes[7] == "")
-                    {
-                        int currentlength = arrayColumnDataBase.Length;
-                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
-                    }
-                    string nameColumns = string.Join(separator, arrayColumnDataBase);
-                    return nameColumns;
-                }
-                else if (selectedTable() == "firetruck")
-                {
-                    string[] arrayColumnDataBase = new string[] { $"\"id_отряда\" = '{arrayColumnTextBoxes[1]}'", $"\"Класс\" = '{arrayColumnTextBoxes[2]}'", $"\"Марка\" = '{arrayColumnTextBoxes[3]}'", $"\"Модель\" = '{arrayColumnTextBoxes[4]}'", $"\"Пробег\" = '{arrayColumnTextBoxes[5]}'", $"\"Состояние\" = '{arrayColumnTextBoxes[6]}'", $"\"Дата_выпуска\" = '{arrayColumnTextBoxes[7]}'", $"\"Дата_списания\" = '{arrayColumnTextBoxes[8]}'" };
-                    
-                    if (comboBoxChangeMode.SelectedItem?.ToString() == "Поиск")
-                    {
-
-                    }
-                    else if (arrayColumnTextBoxes[7] == "")
-                    {
-                        int currentlength = arrayColumnDataBase.Length;
-                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
-                    }
-                    if (comboBoxChangeMode.SelectedItem?.ToString() == "Поиск")
-                    {
-
-                    }
-                    else if (arrayColumnTextBoxes[8] == "")
-                    {
-                        int currentlength = arrayColumnDataBase.Length;
-                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
-                    }
-                    string nameColumns = string.Join(separator, arrayColumnDataBase);
-                    return nameColumns;
-                }
-                else if (selectedTable() == "equipment")
-                {
-                    string[] arrayColumnDataBase = new string[] { $"\"id_отряда\" = '{arrayColumnTextBoxes[1]}'", $"\"Тип\" = '{arrayColumnTextBoxes[2]}'", $"\"Состояние\" = '{arrayColumnTextBoxes[3]}'", $"\"Количество\" = '{arrayColumnTextBoxes[4]}'", $"\"Дата_списания\" = '{arrayColumnTextBoxes[7]}'" };
-                    if (comboBoxChangeMode.SelectedItem?.ToString() == "Поиск")
-                    {
-
-                    }
-                    else if (arrayColumnTextBoxes[7] == "")
-                    {
-                        int currentlength = arrayColumnDataBase.Length;
-                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
-                    }
-                    string nameColumns = string.Join(separator, arrayColumnDataBase);
-                    return nameColumns;
-                }
-                return "Error";
-            }
-            else if (methodMode == "ColumnNameMode")
-            {
-                string[] arrayColumnTextBoxes = new string[] { textBoxTableColumn1.Text, textBoxTableColumn2.Text, textBoxTableColumn3.Text, textBoxTableColumn4.Text, textBoxTableColumn5.Text, textBoxTableColumn6.Text, textBoxTableColumn7.Text, textBoxTableColumn8.Text, textBoxTableColumn9.Text };
-
-                if (selectedTable() == "firesquad")
-                {
-                    string[] arrayColumnDataBase = new string[] { "\"Название\"", "\"Статус\"" };
-                    string nameColumns = string.Join(", ", arrayColumnDataBase);
-                    return nameColumns;
-                }
-                else if (selectedTable() == "fireman")
-                {
-                    string[] arrayColumnDataBase = new string[] { "\"id_отряда\"", "\"Имя\"", "\"Фамилия\"", $"\"Отчество\"", "\"Дата_рождения\"" };
-                    if (comboBoxChangeMode.SelectedItem?.ToString() == "Поиск")
-                    {
-
-                    }
-                    else if (arrayColumnTextBoxes[7] == "")
-                    {
-                        int currentlength = arrayColumnDataBase.Length;
-                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
-                    }
-                    string nameColumns = string.Join(", ", arrayColumnDataBase);
-                    return nameColumns;
-                }
-                else if (selectedTable() == "firetruck")
-                {
-                    string[] arrayColumnDataBase = new string[] { "\"id_отряда\"", "\"Класс\"", "\"Марка\"", "\"Модель\"", "\"Пробег\"", "\"Состояние\"", "\"Дата_выпуска\"", "\"Дата_списания\"" };
-                    
-                    if (comboBoxChangeMode.SelectedItem?.ToString() == "Поиск")
-                    {
-
-                    }
-                    else if (arrayColumnTextBoxes[7] == "")
-                    {
-                        int currentlength = arrayColumnDataBase.Length;
-                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
-                    }
-                    if (comboBoxChangeMode.SelectedItem?.ToString() == "Поиск")
-                    {
-
-                    }
-                    else if (arrayColumnTextBoxes[8] == "")
-                    {
-                        int currentlength = arrayColumnDataBase.Length;
-                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
-                    }
-                    string nameColumns = string.Join(", ", arrayColumnDataBase);
-                    return nameColumns;
-                }
-                else if (selectedTable() == "equipment")
-                {
-                    string[] arrayColumnDataBase = new string[] { "\"id_отряда\"", $"\"Тип\"", "\"Состояние\"", "\"Количество\"", "\"Дата_списания\"" };
-
-                    if (comboBoxChangeMode.SelectedItem?.ToString() == "Поиск")
-                    {
-
-                    }
-                    else if (arrayColumnTextBoxes[7] == "")
-                    {
-                        int currentlength = arrayColumnDataBase.Length;
-                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
-                    }
-                    string nameColumns = string.Join(", ", arrayColumnDataBase);
-                    return nameColumns;
-                }
-                return "Error";
-            }
-            else if (methodMode == "ColumnValueMode")
-            {
-                string[] arrayColumnTextBoxes = new string[] { textBoxTableColumn1.Text, textBoxTableColumn2.Text, textBoxTableColumn3.Text, textBoxTableColumn4.Text, textBoxTableColumn5.Text, textBoxTableColumn6.Text, textBoxTableColumn7.Text, textBoxTableColumn8.Text, textBoxTableColumn9.Text };
-
-                if (selectedTable() == "firesquad")
-                {
-                    string[] arrayColumnDataBase = new string[] { $"'{arrayColumnTextBoxes[1]}'", $"'{arrayColumnTextBoxes[2]}'" };
-                    string nameColumns = string.Join(", ", arrayColumnDataBase);
-                    return nameColumns;
-                }
-                else if (selectedTable() == "fireman")
-                {
-                    string[] arrayColumnDataBase = new string[] { $"'{arrayColumnTextBoxes[1]}'", $"'{arrayColumnTextBoxes[2]}'", $"'{arrayColumnTextBoxes[3]}'", $"'{arrayColumnTextBoxes[4]}'", $"'{arrayColumnTextBoxes[7]}'" };
-
-                    if (comboBoxChangeMode.SelectedItem?.ToString() == "Поиск")
-                    {
-
-                    }
-                    else if (arrayColumnTextBoxes[7] == "")
-                    {
-                        int currentlength = arrayColumnDataBase.Length;
-                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
-                    }
-                    string nameColumns = string.Join(", ", arrayColumnDataBase);
-                    return nameColumns;
-                }
-                else if (selectedTable() == "firetruck")
-                {
-                    string[] arrayColumnDataBase = new string[] { $"'{arrayColumnTextBoxes[1]}'", $"'{arrayColumnTextBoxes[2]}'", $"'{arrayColumnTextBoxes[3]}'", $"'{arrayColumnTextBoxes[4]}'", $"'{arrayColumnTextBoxes[5]}'", $"'{arrayColumnTextBoxes[6]}'", $"'{arrayColumnTextBoxes[7]}'", $"'{arrayColumnTextBoxes[8]}'" };
-
-                    if (comboBoxChangeMode.SelectedItem?.ToString() == "Поиск")
-                    {
-
-                    }
-                    else if (arrayColumnTextBoxes[7] == "")
-                    {
-                        int currentlength = arrayColumnDataBase.Length;
-                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
-                    }
-                    if (comboBoxChangeMode.SelectedItem?.ToString() == "Поиск")
-                    {
-
-                    }
-                    else if (arrayColumnTextBoxes[8] == "")
-                    {
-                        int currentlength = arrayColumnDataBase.Length;
-                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
-                    }
-                    string nameColumns = string.Join(", ", arrayColumnDataBase);
-                    return nameColumns;
-                }
-                else if (selectedTable() == "equipment")
-                {
-                    string[] arrayColumnDataBase = new string[] { $"\"id_отряда\" = '{arrayColumnTextBoxes[1]}'", $"\"Тип\" = '{arrayColumnTextBoxes[2]}'", $"\"Состояние\" = '{arrayColumnTextBoxes[3]}'", $"\"Количество\" = '{arrayColumnTextBoxes[4]}'", $"\"Дата_списания\" = '{arrayColumnTextBoxes[7]}'" };
-                    if (comboBoxChangeMode.SelectedItem?.ToString() == "Поиск")
-                    {
-
-                    }
-                    else if (arrayColumnTextBoxes[7] == "")
-                    {
-                        int currentlength = arrayColumnDataBase.Length;
-                        Array.Resize(ref arrayColumnDataBase, currentlength - 1);
-                    }
-                    string nameColumns = string.Join(", ", arrayColumnDataBase);
-                    return nameColumns;
-                }
-                return "Error";
-            }
-            else
-            {
-                return "Error";
-            }
-
-        }
-        private string selectedId(string mode = "default")
-        {
-            string textBoxMode;
-
-            if (mode == "OnlyID")
-            {
-                textBoxMode = textBoxDeleteID.Text;
-            }
-            else
-            {
-                textBoxMode = textBoxTableColumn1.Text;
-            }
-
-            if (selectedTable() == "firesquad")
-            {
-                return $"id_firesquad = {textBoxMode}";
-            }
-            else if (selectedTable() == "fireman")
-            {
-                return $"id_fireman = {textBoxMode}";
-            }
-            else if (selectedTable() == "firetruck")
-            {
-                return $"id_firetruck = {textBoxMode}";
-            }
-            else if (selectedTable() == "equipment")
-            {
-                return $"id_equipment = {textBoxMode}";
-            }
-            return "Error";
-        }
-        /*/\Функции ПОИСКА, ОБНОВЛЕНИЯ, ДОБАВЛЕНИЯ, УДАЛЕНИЯ данных/\*/
     }
 }
